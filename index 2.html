@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모아 · 우리 학교 학습 정보 한곳에</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#f5f1e8;--card:#fffdf8;--ink:#1b2340;--sub:#5f6680;--mute:#9a9fb0;--line:#e5dfd0;--accent:#ff6a3d;--blue:#3d6cf2;--green:#16a37b;--yellow:#f2b01e;--red:#e5484d;--violet:#7c4dff}
+html,body{background:var(--paper);color:var(--ink);font-family:'Noto Sans KR',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
+input,select,textarea{font:inherit;color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:520px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+.logo{font-family:'Jua',sans-serif;letter-spacing:-.5px}
+
+/* ---------- landing ---------- */
+.land{min-height:100vh;max-width:520px;margin:0 auto;display:flex;flex-direction:column;padding:calc(28px + env(safe-area-inset-top)) 22px calc(28px + env(safe-area-inset-bottom))}
+.land-hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:20px 0}
+.land-logo{font-size:64px;line-height:1;display:flex;align-items:center;gap:12px}
+.land-logo .dot{color:var(--accent)}
+.land-tag{font-size:21px;font-weight:700;line-height:1.45;letter-spacing:-.3px}
+.land-tag em{font-style:normal;background:linear-gradient(transparent 58%,#ffd36b 58%)}
+.land-sub{color:var(--sub);font-size:14px}
+.paper-stack{position:relative;height:150px;margin:6px 0 4px}
+.paper{position:absolute;width:150px;height:110px;border-radius:10px;background:var(--card);border:1.5px solid var(--ink);box-shadow:4px 4px 0 var(--ink);padding:12px}
+.paper i{display:block;height:6px;border-radius:3px;background:var(--line);margin:7px 0}
+.paper b{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;color:#fff;font-weight:700}
+.login-btns{display:grid;gap:12px}
+.lbtn{display:flex;align-items:center;gap:14px;width:100%;padding:18px;border-radius:18px;text-align:left;border:1.5px solid var(--ink);box-shadow:0 4px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.lbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.lbtn .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;flex:none}
+.lbtn strong{display:block;font-size:18px}
+.lbtn span{font-size:13px;opacity:.8}
+.lbtn.stu{background:var(--blue);color:#fff}
+.lbtn.stu .ic{background:rgba(255,255,255,.18)}
+.lbtn.tea{background:var(--card)}
+.lbtn.tea .ic{background:var(--ink);color:#fff}
+
+/* ---------- forms ---------- */
+.screen{max-width:520px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 20px 40px}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--sub);font-size:14px;padding:6px 0;margin-bottom:10px}
+.h1{font-size:26px;font-weight:900;letter-spacing:-.5px;margin-bottom:6px}
+.lead{color:var(--sub);font-size:14px;margin-bottom:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink)}
+.field .hint{font-size:12px;color:var(--mute);margin-top:4px}
+.inp{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:none;font-size:15px;-webkit-appearance:none;appearance:none}
+select.inp{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235f6680' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.inp:focus{border-color:var(--ink)}
+textarea.inp{min-height:90px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:13px 18px;border-radius:12px;font-weight:700;font-size:15px;background:var(--ink);color:#fff}
+.btn.block{width:100%}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.soft{background:#ece7da;color:var(--ink)}
+.btn.accent{background:var(--accent)}
+.btn.blue{background:var(--blue)}
+.btn.red{background:var(--red)}
+.btn.sm{white-space:nowrap;flex:none;padding:8px 12px;font-size:13px;border-radius:10px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.err{color:var(--red);font-size:13px;font-weight:500;margin:-4px 0 12px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:7px 12px;border-radius:30px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip small{opacity:.6;margin-left:3px}
+.secure{display:flex;gap:10px;align-items:flex-start;background:#eef2ff;border-radius:12px;padding:12px 14px;font-size:13px;color:#33427a;margin-bottom:20px}
+
+/* ---------- app chrome ---------- */
+.top{position:sticky;top:0;z-index:20;background:rgba(245,241,232,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:calc(10px + env(safe-area-inset-top)) 18px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid transparent}
+.top .logo{font-size:28px;flex:1;display:flex;align-items:center;gap:6px}
+.top .logo .dot{color:var(--accent)}
+.icobtn{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;position:relative;background:var(--card);border:1px solid var(--line)}
+.badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--red);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.avatar{width:40px;height:40px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+.main{padding:6px 18px 20px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+.nav-in{max-width:520px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;font-size:11px;font-weight:500;color:var(--mute);border-radius:12px}
+.nav button.on{color:var(--ink)}
+.nav button.on svg{stroke:var(--accent)}
+.nav svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- home ---------- */
+.hello{padding:8px 0 14px}
+.hello .date{font-size:13px;color:var(--sub);font-weight:500}
+.hello h2{font-size:23px;font-weight:900;letter-spacing:-.5px;line-height:1.35}
+.alert{background:#fff0ee;border:1.5px solid #ffb8a6;border-radius:16px;padding:14px;margin-bottom:14px}
+.alert-h{display:flex;align-items:center;gap:8px;font-weight:900;color:#c4321a;font-size:14px;margin-bottom:8px}
+.alert-h .pulse{width:10px;height:10px;border-radius:50%;background:var(--red);animation:pulse 1.2s infinite}
+.alert-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:14px;border-top:1px dashed #ffcabd}
+.alert-row:first-of-type{border-top:0}
+.alert-row .t{flex:1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(229,72,77,.55)}70%{box-shadow:0 0 0 8px rgba(229,72,77,0)}100%{box-shadow:0 0 0 0 rgba(229,72,77,0)}}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:900;line-height:1.2}
+.stat span{font-size:11px;color:var(--sub);font-weight:500;line-height:1.3;display:block}
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-bottom:18px}
+.wd{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:7px 0 8px;text-align:center}
+.wd .d{font-size:11px;color:var(--sub)}
+.wd .n{font-size:16px;font-weight:700}
+.wd .dots{display:flex;justify-content:center;gap:2px;height:6px;margin-top:2px}
+.wd .dots i{width:5px;height:5px;border-radius:50%}
+.wd.today{background:var(--ink);color:#fff;border-color:var(--ink)}
+.wd.today .d{color:#c9cde0}
+.day{margin-bottom:18px}
+.day-h{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.day-h b{font-size:16px;font-weight:900}
+.day-h span{font-size:13px;color:var(--sub)}
+.empty-day{font-size:13px;color:var(--mute);padding:4px 2px}
+.list{display:grid;gap:8px}
+.item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px;text-align:left;width:100%}
+.item .body{flex:1;min-width:0}
+.item .ttl{font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item .meta{font-size:12px;color:var(--sub);display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-bottom:2px}
+.item.isdone .ttl{text-decoration:line-through;color:var(--mute)}
+.item.hot{background:#fff6f5;border-color:#ffc4b7}
+.item.over{background:#f7f5f0;border-color:#d8d2c3}
+.stag{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:6px}
+.ktag{font-size:11px;font-weight:700;color:var(--sub)}
+.chk{width:28px;height:28px;flex:none;border-radius:50%;border:2px solid #cfc8b6;display:grid;place-items:center;background:#fff}
+.chk.on{background:var(--green);border-color:var(--green)}
+.chk svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:3}
+.dd{flex:none;font-size:12px;font-weight:900;padding:4px 8px;border-radius:8px;white-space:nowrap}
+.dd.hot{background:var(--red);color:#fff;animation:pulse 1.4s infinite}
+.dd.over{background:#2b2b33;color:#fff}
+.dd.warm{background:#ff8a3d;color:#fff}
+.dd.soon{background:#ffefc2;color:#8a5a00}
+.dd.far,.dd.none{background:#eceef4;color:var(--sub)}
+.dd.done{background:#dcf3ea;color:var(--green)}
+.ev-ic{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;flex:none;font-size:15px}
+.sec-h{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.sec-h h3{font-size:17px;font-weight:900}
+.sec-h a,.sec-h button{font-size:13px;color:var(--sub);font-weight:500}
+.hscroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;margin:0 -18px;padding-left:18px;padding-right:18px;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+.fab{position:fixed;right:max(18px,calc(50vw - 242px));bottom:calc(84px + env(safe-area-inset-bottom));z-index:25;height:52px;padding:0 20px 0 16px;border-radius:26px;background:var(--accent);color:#fff;font-weight:700;display:flex;align-items:center;gap:6px;box-shadow:0 6px 18px rgba(255,106,61,.4)}
+
+/* ---------- archive ---------- */
+.search{position:relative;margin-bottom:10px}
+.search input{padding-left:42px}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--mute);fill:none;stroke-width:2}
+.chip-scroll{display:flex;gap:6px;overflow-x:auto;margin:0 -18px 14px;padding:0 18px 4px;scrollbar-width:none}
+.chip-scroll::-webkit-scrollbar{display:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;width:100%}
+.sheet .th{aspect-ratio:4/3;background:#ece7da;display:grid;place-items:center;overflow:hidden;position:relative}
+.sheet .th img{width:100%;height:100%;object-fit:cover}
+.sheet .th .src{position:absolute;left:8px;top:8px;font-size:10px;font-weight:700;background:rgba(27,35,64,.85);color:#fff;padding:2px 7px;border-radius:6px}
+.sheet .inf{padding:9px 10px 11px}
+.sheet .inf .ttl{font-weight:700;font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:4px 0 2px}
+.sheet .inf .dt{font-size:12px;color:var(--sub)}
+.hsheet{flex:none;width:140px}
+.ph{font-family:'Jua';font-size:30px;color:#fff;width:100%;height:100%;display:grid;place-items:center}
+.empty{text-align:center;padding:40px 20px;color:var(--sub);font-size:14px}
+.empty .big{font-size:40px;margin-bottom:8px}
+
+/* ---------- perf ---------- */
+.seg{display:flex;background:#ebe5d6;border-radius:12px;padding:3px;margin-bottom:14px}
+.seg button{flex:1;padding:8px 0;border-radius:9px;font-size:14px;font-weight:700;color:var(--sub)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.pcard{background:var(--card);border:1.5px solid var(--line);border-radius:16px;margin-bottom:10px;overflow:hidden}
+.pcard.hot{border-color:#ff9f8a;box-shadow:0 0 0 3px rgba(229,72,77,.08)}
+.pcard.warm{border-color:#ffc49c}
+.pcard.over{border-color:#b9b2a2}
+.pcard.done{opacity:.75}
+.pc-top{display:flex;gap:12px;padding:14px;width:100%;text-align:left;align-items:flex-start}
+.dd.big{font-size:14px;padding:10px 0;width:62px;text-align:center;border-radius:12px}
+.pc-main{flex:1;min-width:0}
+.pc-title{font-weight:900;font-size:16px;margin:3px 0 1px;line-height:1.35}
+.pc-dates{font-size:12.5px;color:var(--sub)}
+.bar{height:6px;background:#ece7da;border-radius:3px;margin-top:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:3px;transition:width .3s}
+.pc-prog{font-size:11.5px;color:var(--sub);margin-top:3px}
+.pc-body{padding:0 14px 14px;border-top:1px dashed var(--line)}
+.pc-body .desc{font-size:14px;white-space:pre-wrap;padding:12px 0 6px;color:#333a55}
+.steps{display:grid;gap:4px;margin:8px 0}
+.step{display:flex;align-items:center;gap:10px;padding:8px 4px;font-size:14px;border-radius:8px;text-align:left;width:100%}
+.step .chk{width:24px;height:24px}
+.step.on span{text-decoration:line-through;color:var(--mute)}
+.step .x{margin-left:auto;color:var(--mute);font-size:18px;padding:0 4px}
+.addstep{display:flex;gap:6px;margin:6px 0 12px}
+.addstep .inp{padding:9px 12px;font-size:14px}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.lbl{font-size:12px;font-weight:700;color:var(--sub);margin-top:10px}
+
+/* ---------- calendar ---------- */
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin:4px 0 12px}
+.cal-h b{font-size:20px;font-weight:900}
+.cal{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 8px}
+.cal-g{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+.cal-dow{font-size:11px;text-align:center;color:var(--sub);font-weight:700;padding:4px 0}
+.cal-dow:first-child{color:var(--red)}
+.cal-dow:last-child{color:var(--blue)}
+.cell{min-width:0;width:100%;min-height:54px;border-radius:10px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:13px;font-weight:500}
+.cell.oth{opacity:.3}
+.cell.sel{background:#ece7da}
+.cell .num{width:24px;height:24px;border-radius:50%;display:grid;place-items:center}
+.cell.today .num{background:var(--accent);color:#fff;font-weight:700}
+.cell .cd{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:36px}
+.cell .cd i{width:6px;height:6px;border-radius:50%}
+.cell .exam{font-size:9px;font-weight:700;color:#fff;background:var(--red);border-radius:4px;padding:0 3px;line-height:14px;max-width:100%;overflow:hidden;white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;gap:10px;font-size:12px;color:var(--sub);margin:10px 4px 16px}
+.legend span{display:flex;align-items:center;gap:4px}
+.legend i{width:8px;height:8px;border-radius:50%}
+
+/* ---------- AI ---------- */
+.ai-hero{background:var(--ink);color:#fff;border-radius:18px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.ai-hero h2{font-size:20px;font-weight:900}
+.ai-hero p{font-size:13px;color:#c9cde0;margin-top:4px}
+.ai-hero .spark{position:absolute;right:-6px;top:-10px;font-size:84px;opacity:.15}
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.ai-card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px;text-align:left}
+.ai-card.on{border-color:var(--ink);box-shadow:0 3px 0 var(--ink)}
+.ai-card .e{font-size:24px}
+.ai-card b{display:block;font-size:14.5px;margin-top:6px}
+.ai-card span{font-size:12px;color:var(--sub);line-height:1.4;display:block;margin-top:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px}
+.panel h3{font-size:16px;font-weight:900;margin-bottom:12px}
+.out{background:#faf8f2;border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;font-size:14px;line-height:1.65}
+.out h4{font-size:14.5px;font-weight:900;margin:12px 0 4px}
+.out h4:first-child{margin-top:0}
+.out ul,.out ol{padding-left:20px;margin:4px 0}
+.out li{margin:2px 0}
+.out p{margin:4px 0}
+.out .thinking{color:var(--mute)}
+.plan-day{border-top:1px dashed var(--line);padding:10px 0}
+.plan-day:first-child{border-top:0;padding-top:0}
+.plan-day b{font-size:14px}
+.plan-task{display:flex;gap:8px;align-items:center;font-size:13.5px;margin-top:5px}
+.plan-task .m{margin-left:auto;font-size:12px;color:var(--sub);flex:none}
+.drop{border:2px dashed #cfc8b6;border-radius:14px;padding:18px;text-align:center;color:var(--sub);font-size:13.5px;display:block;cursor:pointer;background:#fff}
+.drop img{max-height:200px;margin:0 auto 8px;border-radius:8px}
+.drop input{display:none}
+.notice{background:#fff8e6;border:1px solid #f4dc9c;color:#7a5a00;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:12px}
+
+/* ---------- modal ---------- */
+.ov{position:fixed;inset:0;z-index:50;background:rgba(20,24,40,.45);display:flex;align-items:flex-end;justify-content:center;animation:fade .15s}
+.sheetm{background:var(--paper);width:100%;max-width:520px;max-height:92vh;overflow-y:auto;border-radius:22px 22px 0 0;padding:10px 20px calc(24px + env(safe-area-inset-bottom));animation:up .2s ease-out}
+.grab{width:40px;height:5px;border-radius:3px;background:#d2cbb9;margin:0 auto 12px}
+.m-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.m-h b{font-size:18px;font-weight:900}
+@media(min-width:600px){.ov{align-items:center}.sheetm{border-radius:22px;max-height:86vh}}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+.big-img{border-radius:12px;border:1px solid var(--line);background:#fff;width:100%;margin-bottom:12px}
+.kv{display:grid;grid-template-columns:72px 1fr;gap:6px 10px;font-size:14px;margin:6px 0 14px}
+.kv dt{color:var(--sub)}
+.notif{display:flex;gap:10px;padding:12px 0;border-top:1px solid var(--line);align-items:flex-start;text-align:left;width:100%}
+.notif:first-child{border-top:0}
+.notif .new{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:7px;flex:none}
+.notif .old{width:8px;flex:none}
+.notif .t{font-weight:700;font-size:14px}
+.notif .s{font-size:12px;color:var(--sub)}
+
+/* ---------- toast ---------- */
+#toasts{position:fixed;left:0;right:0;top:calc(12px + env(safe-area-inset-top));z-index:80;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none;padding:0 14px}
+.toast{background:var(--ink);color:#fff;padding:12px 16px;border-radius:14px;font-size:14px;font-weight:500;max-width:460px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.18);animation:drop .25s ease-out;display:flex;gap:10px;align-items:center}
+.toast.push{background:#fff;color:var(--ink);border:1.5px solid var(--ink)}
+.toast .tt{font-weight:900;font-size:13px}
+@keyframes drop{from{transform:translateY(-16px);opacity:0}}
+
+/* ---------- teacher ---------- */
+.t-top{background:var(--ink);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 18px 16px}
+.t-top .r{display:flex;align-items:center;gap:10px}
+.t-top .logo{font-size:26px;flex:1}
+.t-top .logo .dot{color:var(--accent)}
+.t-top .who{font-size:13px;color:#c9cde0;margin-top:8px;display:flex;align-items:center;gap:6px}
+.t-top .ver{background:#16a37b;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+.t-top button.lo{color:#fff;border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:10px;font-size:13px}
+.ttabs{display:flex;gap:6px;padding:14px 18px 4px;position:sticky;top:0;background:var(--paper);z-index:10}
+.ttabs button{flex:1;padding:10px 0;border-radius:12px;font-weight:700;font-size:14px;background:#ebe5d6;color:var(--sub)}
+.ttabs button.on{background:var(--ink);color:#fff}
+.typesel{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.typesel button{padding:10px 0;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:13.5px}
+.typesel button.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.target{background:#e8f6f0;color:#0e6b50;border-radius:12px;padding:11px 14px;font-size:13px;margin:4px 0 14px;display:flex;gap:8px;align-items:flex-start}
+.tpost{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.tpost .r1{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--sub)}
+.tpost .tt{font-weight:900;font-size:15px;margin:4px 0 2px}
+.tpost .r3{display:flex;gap:6px;margin-top:10px}
+.editing{background:#fff4d6;border:1px solid #f2d37a;border-radius:12px;padding:10px 12px;font-size:13px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.blocked{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;gap:12px;max-width:520px;margin:0 auto}
+.blocked .lock{width:76px;height:76px;border-radius:22px;background:var(--ink);color:#fff;display:grid;place-items:center}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
+.spin.dark{border-color:rgba(0,0,0,.15);border-top-color:var(--ink)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.filelink{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px;font-weight:500;color:var(--ink);text-decoration:none;margin:6px 0}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toasts"></div>
+
+<script>
+/* ============================================================
+   모아(MOA) — 학교 학습 정보 통합 플랫폼 (프로토타입)
+   ============================================================ */
+const SUBJECTS=['국어','영어','수학','사회','과학','역사','도덕','기술가정','정보','음악','미술','체육','기타'];
+const SUBJ_COLOR={국어:'#e5484d',영어:'#3d6cf2',수학:'#16a37b',사회:'#c27c0e',과학:'#7c4dff',역사:'#a0522d',도덕:'#0e9fb3',기술가정:'#d6409f',정보:'#2b2d42',음악:'#f08c00',미술:'#e8590c',체육:'#2f9e44',기타:'#6b7280'};
+const TYPE_LABEL={sheet:'학습지',perf:'수행평가',hw:'숙제',supply:'준비물'};
+const KIND_COLOR={sheet:'#16a37b',perf:'#ff6a3d',hw:'#3d6cf2',supply:'#f2b01e',event:'#7c4dff',exam:'#e5484d'};
+const EVENT_KINDS=['중간고사','기말고사','체험학습','학교행사','학급일정'];
+const EVENT_EMOJI={중간고사:'📝',기말고사:'📝',체험학습:'🚌',학교행사:'🎉',학급일정:'📌'};
+const GRADES=['1','2','3'];
+const CLASSES=['1','2','3','4','5','6','7','8','9','10','11','12'];
+const TEACHER_KEY='c17471c0319f34a21caf68249ecda9a872b4bc6a4be0eb416c8aafbb0e6e8bb2'; // SHA-256("아이디:비밀번호")
+const TEACHER_ID='gasoge';
+
+/* ---------- utils ---------- */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const ymd=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const today=()=>ymd(new Date());
+const parse=s=>{const[y,m,d]=String(s).split('-').map(Number);return new Date(y,(m||1)-1,d||1)};
+const addDays=(s,n)=>{const d=parse(s);d.setDate(d.getDate()+n);return ymd(d)};
+const diff=s=>s?Math.round((parse(s)-parse(today()))/864e5):null;
+const DOW='일월화수목금토';
+const fmt=s=>{if(!s)return'';const d=parse(s);return`${d.getMonth()+1}/${d.getDate()}(${DOW[d.getDay()]})`};
+const genId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const ddLabel=n=>n==null?'':n===0?'D-DAY':n>0?'D-'+n:'D+'+(-n);
+function urg(n,done){if(done)return'done';if(n==null)return'none';if(n<0)return'over';if(n<=1)return'hot';if(n<=3)return'warm';if(n<=7)return'soon';return'far'}
+const store=t=>({get(k){try{return JSON.parse(t().getItem(k))}catch{return null}},set(k,v){try{t().setItem(k,JSON.stringify(v))}catch{}},del(k){try{t().removeItem(k)}catch{}}});
+const ss=store(()=>sessionStorage), ls=store(()=>localStorage);
+const subjTag=s=>{const c=SUBJ_COLOR[s]||'#6b7280';return`<span class="stag" style="background:${c}1f;color:${c}">${esc(s||'기타')}</span>`};
+const CHECK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const ICON={
+ home:'<svg viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>',
+ archive:'<svg viewBox="0 0 24 24"><path d="M4 4h12l4 4v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M8 12h8M8 16h5"/></svg>',
+ perf:'<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="17" rx="2"/><path d="M9 3h6v3H9zM8 12l2.5 2.5L16 9"/></svg>',
+ cal:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+ ai:'<svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>',
+ bell:'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+ search:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ lock:'<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+ file:'<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg>'
+};
+
+/* ---------- capabilities (shared DB / file store / AI / user) ---------- */
+let DB=null,USER=null,ASSETS=null,AI=null,UID=null,AI_IMG=false;
+const ready=(async()=>{
+  for(let i=0;i<20&&!(window.claude&&window.claude.use);i++) await new Promise(r=>setTimeout(r,50));
+  if(!(window.claude&&window.claude.use)) return;
+  const use=n=>window.claude.use(n).catch(()=>null);
+  [DB,USER,ASSETS,AI]=await Promise.all([use('db'),use('user'),use('assets'),use('sample')]);
+  if(USER){try{UID=await USER.id()}catch{}}
+  if(AI){AI_IMG=true;try{const l=await AI.limits();if(l&&l.images===false)AI_IMG=false}catch{}}
+})();
+
+ready.then(()=>schedule());
+async function ensureAI(){await ready;if(!AI&&window.claude&&window.claude.use){try{AI=await window.claude.use('sample');if(AI){AI_IMG=true;try{const l=await AI.limits();if(l&&l.images===false)AI_IMG=false}catch{}}}catch{AI=null}}if(!AI)toast('AI 기능을 불러오지 못했어요. Claude 앱에서 이 페이지를 새로고침해 주세요.');return AI}
+/* store layer: shared DB when available, otherwise this browser only */
+const mem={},lsubs={},queues={};
+const arr=o=>Object.entries(o).map(([id,v])=>({...v,id}));
+const isLocal=p=>!DB||p.startsWith('local/');
+function localGet(p){if(!mem[p])mem[p]=ls.get('moa:'+p)||{};return mem[p]}
+function localSet(p,o){mem[p]=o;ls.set('moa:'+p,o);(lsubs[p]||[]).forEach(cb=>cb(arr(o)))}
+const pp=()=>DB&&UID?'data/users/'+UID:'local/me';
+function sub(p,cb){
+  if(!isLocal(p)){
+    const t=setTimeout(()=>toast('데이터 연결이 느려요. 잠시만 기다려 주세요.'),10000);
+    return DB.collection(p).onSnapshot(s=>{if(!s.metadata.fromCache)clearTimeout(t);cb(s.docs.map(d=>({...d.data(),id:d.id})))},e=>{clearTimeout(t);console.warn(e);toast('데이터 연결이 끊겼어요. 새로고침해 주세요.')});
+  }
+  (lsubs[p]=lsubs[p]||[]).push(cb);cb(arr(localGet(p)));return()=>{};
+}
+function writeErr(e){
+  const c=e&&e.code;
+  toast(c==='invalid_argument'?'저장 권한이 없어요 (보기 전용으로 공유된 경우).':c==='quota_exceeded'?'저장 공간이 가득 찼어요.':'저장에 실패했어요. 잠시 후 다시 시도해 주세요.');
+}
+function q(k,fn){const run=(queues[k]||Promise.resolve()).then(fn);queues[k]=run.catch(()=>{});return run.then(()=>true,e=>{console.warn(e);writeErr(e);return false})}
+function put(p,id,data){return q(p+'/'+id,async()=>{if(!isLocal(p))await DB.collection(p).doc(id).set(JSON.parse(JSON.stringify(data)));else{const o={...localGet(p)};o[id]=data;localSet(p,o)}})}
+function del(p,id){return q(p+'/'+id,async()=>{if(!isLocal(p))await DB.collection(p).doc(id).delete();else{const o={...localGet(p)};delete o[id];localSet(p,o)}})}
+async function getDoc(p,id){try{if(!isLocal(p)){const s=await DB.collection(p).doc(id).get();return s.exists?s.data():null}return localGet(p)[id]||null}catch{return null}}
+
+/* ---------- files ---------- */
+function loadImg(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file);const i=new Image();i.onload=()=>{res(i)};i.onerror=rej;i.src=u})}
+async function compress(file,max,qual){
+  const img=await loadImg(file);const s=Math.min(1,max/Math.max(img.width,img.height));
+  const c=document.createElement('canvas');c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+  const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);
+  return await new Promise(r=>c.toBlob(r,'image/jpeg',qual));
+}
+const toDataUrl=b=>new Promise(r=>{const f=new FileReader();f.onload=()=>r(f.result);f.readAsDataURL(b)});
+async function storeFile(file){
+  const isImg=file.type.startsWith('image/');
+  let blob=file;if(isImg){try{blob=await compress(file,1800,.85)}catch{blob=file}}
+  if(ASSETS){try{const r=await ASSETS.upload(blob);return{url:r.url,id:r.id,name:file.name,mime:blob.type||file.type,img:isImg}}catch(e){console.warn('asset upload',e)}}
+  if(isImg){let w=1100,qq=.72,b=null;for(let i=0;i<5;i++){b=await compress(file,w,qq);if(b.size<170000)break;w*=.8;qq=Math.max(.4,qq-.08)}return{dataUrl:await toDataUrl(b),name:file.name,mime:'image/jpeg',img:true}}
+  if(file.size<170000)return{dataUrl:await toDataUrl(file),name:file.name,mime:file.type,img:false};
+  throw new Error('파일이 너무 커요 (사진으로 올려 주세요)');
+}
+const fileSrc=f=>!f?'':f.url||f.dataUrl||(f.id?'/_blob/'+f.id:'');
+async function fileBlob(f){try{return await (await fetch(fileSrc(f))).blob()}catch{return null}}
+
+/* ---------- state ---------- */
+const S={role:null,teacher:false,profile:null,view:'home',posts:[],events:[],mine:[],
+  st:{checks:{},summaries:{},lastRead:0,plan:null},postsLoaded:false,bootAt:Date.now(),
+  q:'',subj:'전체',perfTab:'todo',open:null,calMonth:today().slice(0,7),calSel:today(),
+  tTab:'post',draft:{type:'sheet'},draftFile:null,editId:null,edraft:{},eEditId:null,
+  sl:{},ai:{tool:null},login:{err:'',fails:0,lockUntil:0}};
+let pending=false,rq=0;
+function isTyping(){const a=document.activeElement;return a&&['INPUT','TEXTAREA','SELECT'].includes(a.tagName)&&a.type!=='file'&&$('#app').contains(a)}
+function schedule(){if(isTyping()){pending=true;return}cancelAnimationFrame(rq);rq=requestAnimationFrame(render)}
+document.addEventListener('focusout',()=>setTimeout(()=>{if(pending&&!isTyping()){pending=false;render()}},60));
+
+/* visibility: only students of the target grade / class (and subject they take) see a post */
+const tgtOk=(g,c,pr)=>(String(g)==='전체'||String(g)===String(pr.grade))&&(String(c)==='전체'||String(c)===String(pr.cls));
+function visible(p){const pr=S.profile;if(!pr)return false;if(!tgtOk(p.grade,p.cls,pr))return false;if(p.subject&&pr.subjects&&pr.subjects.length&&!pr.subjects.includes(p.subject))return false;return true}
+const evVisible=e=>S.profile&&tgtOk(e.grade??'전체',e.cls??'전체',S.profile);
+
+function sheets(){
+  const t=S.posts.filter(p=>p.type==='sheet'&&visible(p)).map(p=>({id:p.id,src:'t',subject:p.subject,title:p.title,date:p.date||ymd(new Date(p.createdAt||Date.now())),desc:p.desc,file:p.file,summary:(S.st.summaries||{})[p.id]||'',createdAt:p.createdAt||0}));
+  const m=S.mine.filter(x=>x.kind==='sheet').map(x=>({...x,src:'m'}));
+  return[...t,...m].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));
+}
+const defSteps=p=>[{t:'안내문 꼼꼼히 읽기',d:false},...(p.materials||[]).map(m=>({t:'준비물: '+m,d:false})),{t:'최종 점검 후 제출',d:false}];
+function perfs(){
+  const out=[];
+  for(const p of S.posts)if(p.type==='perf'&&visible(p)){const c=(S.st.checks||{})[p.id]||{};out.push({id:p.id,src:'t',subject:p.subject,title:p.title,desc:p.desc,evalDate:p.evalDate||'',due:p.due||'',materials:p.materials||[],steps:c.steps||defSteps(p),done:!!c.done,file:p.file})}
+  for(const m of S.mine)if(m.kind==='perf')out.push({...m,src:'m',steps:m.steps||[],materials:m.materials||[]});
+  return out;
+}
+function tasks(kind){
+  const out=[];
+  for(const p of S.posts)if(p.type===kind&&visible(p)){const c=(S.st.checks||{})[p.id]||{};out.push({id:p.id,src:'t',kind,subject:p.subject,title:p.title,desc:p.desc,due:p.due||'',done:!!c.done,file:p.file})}
+  for(const m of S.mine)if(m.kind===kind)out.push({...m,src:'m'});
+  return out;
+}
+function keyDate(x){const ds=[x.evalDate,x.due].filter(Boolean).sort();return ds.find(d=>d>=today())||ds[ds.length-1]||''}
+function dayEntries(ds){
+  const out=[];
+  for(const e of S.events)if(evVisible(e)&&e.start<=ds&&ds<=(e.end||e.start))out.push({k:'event',e});
+  for(const x of perfs()){if(x.evalDate===ds)out.push({k:'perf',x,sub:'평가일'});if(x.due===ds&&x.due!==x.evalDate)out.push({k:'perf',x,sub:'제출 마감'})}
+  for(const x of tasks('hw'))if(x.due===ds)out.push({k:'hw',x,sub:'제출'});
+  for(const x of tasks('supply'))if(x.due===ds)out.push({k:'supply',x,sub:'챙기기'});
+  for(const x of sheets())if(x.src==='t'&&x.date===ds)out.push({k:'sheet',x,sub:'배부'});
+  return out;
+}
+
+/* ---------- state persistence ---------- */
+let stTimer=null,stDirty=false;
+function saveState(){stDirty=true;clearTimeout(stTimer);stTimer=setTimeout(async()=>{await put(pp(),'state',S.st);stDirty=false},350)}
+function onPersonal(docs){
+  const mine=[];
+  for(const d of docs){
+    if(d.id==='profile'){if(d.name)S.profile=d}
+    else if(d.id==='state'){if(!stDirty)S.st={checks:{},summaries:{},lastRead:0,plan:null,...d}}
+    else mine.push(d);
+  }
+  S.mine=mine;schedule();
+}
+let dataStarted=false,personalStarted=false;
+async function startData(){
+  if(dataStarted)return;dataStarted=true;await ready;
+  sub('posts',docs=>{
+    const prev=new Set(S.posts.map(p=>p.id)),first=!S.postsLoaded;
+    S.posts=docs;S.postsLoaded=true;
+    if(!first&&S.role==='student')docs.filter(p=>!prev.has(p.id)&&(p.createdAt||0)>S.bootAt&&visible(p)).forEach(notifyNew);
+    schedule();
+  });
+  sub('events',docs=>{S.events=docs;schedule()});
+}
+async function startPersonal(){if(personalStarted)return;personalStarted=true;await ready;sub(pp(),onPersonal)}
+
+/* ---------- notifications ---------- */
+function notifyNew(p){
+  toast(`<div><div class="tt">🔔 새 ${TYPE_LABEL[p.type]||'자료'} · ${esc(p.subject)}</div>${esc(p.title)}</div>`,'push',5200);
+  try{if('Notification'in window&&Notification.permission==='granted')new Notification('모아 · 새 '+(TYPE_LABEL[p.type]||'자료'),{body:`[${p.subject}] ${p.title}`})}catch{}
+}
+function inbox(){const lim=Date.now()-21*864e5;return S.posts.filter(p=>visible(p)&&(p.createdAt||0)>lim).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0))}
+const unread=()=>inbox().filter(p=>(p.createdAt||0)>(S.st.lastRead||0)).length;
+
+/* ---------- toast & modal ---------- */
+function toast(html,cls='',ms=2600){const t=document.createElement('div');t.className='toast '+cls;t.innerHTML=html;$('#toasts').appendChild(t);setTimeout(()=>{t.style.transition='opacity .3s';t.style.opacity=0;setTimeout(()=>t.remove(),300)},ms)}
+function openModal(title,html){$('#modal').innerHTML=`<div class="ov" onclick="if(event.target===this)A.close()"><div class="sheetm" role="dialog"><div class="grab"></div><div class="m-h"><b>${title}</b><button class="icobtn" onclick="A.close()" aria-label="닫기">✕</button></div><div id="mbody">${html}</div></div></div>`}
+function closeModal(){$('#modal').innerHTML=''}
+function confirmBox(msg,okLabel='삭제'){return new Promise(res=>{
+  openModal('확인',`<p style="font-size:15px;margin-bottom:18px">${msg}</p><div class="row2"><button class="btn ghost" id="cfN">취소</button><button class="btn red" id="cfY">${okLabel}</button></div>`);
+  $('#cfN').onclick=()=>{closeModal();res(false)};$('#cfY').onclick=()=>{closeModal();res(true)};
+})}
+
+/* ---------- mini markdown ---------- */
+function md(src){
+  const L=esc(src||'').split('\n');let h='',list=null;
+  const inl=s=>s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  const close=()=>{if(list){h+=`</${list}>`;list=null}};
+  for(const raw of L){const l=raw.trim();
+    if(/^#{1,4}\s/.test(l)){close();h+=`<h4>${inl(l.replace(/^#+\s/,''))}</h4>`}
+    else if(/^[-*•]\s/.test(l)){if(list!=='ul'){close();h+='<ul>';list='ul'}h+=`<li>${inl(l.slice(2))}</li>`}
+    else if(/^\d+[.)]\s/.test(l)){if(list!=='ol'){close();h+='<ol>';list='ol'}h+=`<li>${inl(l.replace(/^\d+[.)]\s/,''))}</li>`}
+    else if(!l){close()}
+    else{close();h+=`<p>${inl(l)}</p>`}
+  }
+  close();return h;
+}
+
+/* ---------- AI helpers ---------- */
+function aiErr(e){const c=e&&e.code;toast(c==='rate_limited'?'AI 요청이 많아요. 잠시 후 다시 시도해 주세요.':c==='not_granted'?'AI 사용이 허용되지 않았어요.':'AI 응답을 받지 못했어요.')}
+async function aiStream(prompt,elId,images){
+  const el=()=>document.getElementById(elId);
+  const opts={onText:({text})=>{const e=el();if(e)e.innerHTML=md(text)}};
+  if(images&&images.length&&AI_IMG)opts.images=images;
+  const e0=el();if(e0)e0.innerHTML='<p class="thinking">생각하는 중…</p>';
+  const r=await AI(prompt,opts);const e=el();if(e)e.innerHTML=md(r.text);return r.text;
+}
+async function aiJSON(prompt,images){const opts={};if(images&&images.length&&AI_IMG)opts.images=images;return await AI.json(prompt,opts)}
+const KW={수학:['함수','방정식','도형','확률','통계','수열','미분','적분','인수분해','부등식','좌표','삼각','수학'],영어:['english','grammar','reading','vocab','영단어','영어','word'],국어:['문학','비문학','소설','독서','화법','작문','고전','국어','시 '],과학:['물리','화학','생명','지구과학','실험','세포','원소','에너지','과학'],사회:['지리','경제','정치','사회','문화'],역사:['역사','조선','고려','삼국','근대','한국사','세계사'],도덕:['도덕','윤리'],정보:['코딩','파이썬','알고리즘','정보','프로그래밍'],음악:['음악','악보','리코더'],미술:['미술','드로잉','디자인'],체육:['체육','줄넘기','농구','배구'],기술가정:['기술','가정','요리','바느질']};
+function guessSubject(t){t=(t||'').toLowerCase();for(const[s,ks]of Object.entries(KW))if(ks.some(k=>t.includes(k.toLowerCase())))return s;return'기타'}
+
+/* ============================================================
+   VIEWS
+   ============================================================ */
+function render(){
+  const app=$('#app');
+  if(location.hash==='#teacher'&&!S.teacher&&S.role!=='teacher-login'){app.innerHTML=vBlocked();return}
+  if(!S.role){app.innerHTML=vLanding();return}
+  if(S.role==='student-login'){app.innerHTML=vStudentLogin();return}
+  if(S.role==='teacher-login'){app.innerHTML=vTeacherLogin();return}
+  if(S.role==='teacher'){if(!S.teacher){app.innerHTML=vBlocked();return}app.innerHTML=vTeacher();return}
+  app.innerHTML=vStudent();
+}
+
+/* ----- landing ----- */
+function vLanding(){
+  return`<div class="land">
+  <div class="land-hero">
+    <div class="land-logo logo">모아<span class="dot">.</span></div>
+    <div class="paper-stack" aria-hidden="true">
+      <div class="paper" style="left:0;top:22px;transform:rotate(-7deg)"><b style="background:#16a37b">수학</b><i></i><i style="width:70%"></i><i style="width:85%"></i></div>
+      <div class="paper" style="left:92px;top:6px;transform:rotate(4deg)"><b style="background:#ff6a3d">수행평가 D-2</b><i></i><i style="width:60%"></i><i style="width:80%"></i></div>
+      <div class="paper" style="left:186px;top:30px;transform:rotate(-2deg)"><b style="background:#3d6cf2">영어</b><i style="width:90%"></i><i></i><i style="width:50%"></i></div>
+    </div>
+    <div class="land-tag">학교에서 받은 <em>모든 학습 정보</em>를<br>한곳에 모아 관리하는 학교생활 플랫폼</div>
+    <div class="land-sub">학습지 · 수행평가 · 준비물 · 숙제 · 학교 일정까지</div>
+  </div>
+  <div class="login-btns">
+    <button class="lbtn stu" onclick="A.go('student-login')">
+      <div class="ic"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8V6a6 6 0 0 1 12 0v2"/><rect x="4" y="8" width="16" height="13" rx="3"/><path d="M9 13h6"/></svg></div>
+      <div><strong>학생 로그인</strong><span>이번 주 할 일과 학습지 확인하기</span></div>
+    </button>
+    <button class="lbtn tea" onclick="A.go('teacher-login')">
+      <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div><strong>선생님 로그인</strong><span>학교 발급 교사용 계정으로 인증</span></div>
+    </button>
+  </div>
+  </div>`;
+}
+
+/* ----- student login ----- */
+function vStudentLogin(){
+  const d=S.sl;const subs=d.subjects||SUBJECTS;
+  return`<div class="screen">
+  <button class="back" onclick="A.go(null)">← 처음으로</button>
+  <div class="h1">학생 로그인</div>
+  <div class="lead">학년과 반을 알려주면 우리 반에 올라온 자료만 골라서 보여줄게요.</div>
+  <form onsubmit="event.preventDefault();A.studentLogin()">
+    <div class="field"><label>이름</label><input class="inp" required maxlength="20" value="${esc(d.name||'')}" oninput="S.sl.name=this.value" placeholder="예) 김모아"></div>
+    <div class="row3">
+      <div class="field"><label>학년</label><select class="inp" onchange="S.sl.grade=this.value">${GRADES.map(g=>`<option ${String(d.grade||'1')===g?'selected':''} value="${g}">${g}학년</option>`).join('')}</select></div>
+      <div class="field"><label>반</label><select class="inp" onchange="S.sl.cls=this.value">${CLASSES.map(c=>`<option ${String(d.cls||'1')===c?'selected':''} value="${c}">${c}반</option>`).join('')}</select></div>
+      <div class="field"><label>번호</label><input class="inp" type="number" min="1" max="50" inputmode="numeric" value="${esc(d.num||'')}" oninput="S.sl.num=this.value" placeholder="번호"></div>
+    </div>
+    <div class="field"><label>듣는 과목 <span style="font-weight:400;color:var(--mute)">· 선택한 과목 자료만 알림이 와요</span></label>
+      <div class="chips">${SUBJECTS.map(s=>`<button type="button" class="chip ${subs.includes(s)?'on':''}" onclick="A.slSubj('${s}')">${s}</button>`).join('')}</div>
+    </div>
+    <button class="btn blue block" style="margin-top:8px">시작하기</button>
+  </form></div>`;
+}
+
+/* ----- teacher login ----- */
+function vTeacherLogin(){
+  const L=S.login;const locked=L.lockUntil>Date.now();
+  return`<div class="screen">
+  <button class="back" onclick="A.go(null)">← 처음으로</button>
+  <div class="h1">선생님 로그인</div>
+  <div class="lead">학교에서 발급한 교사용 아이디와 비밀번호를 입력해 주세요.</div>
+  <div class="secure"><span>🔒</span><span>인증이 완료된 선생님 계정만 학습지·수행평가 자료를 올리고 수정할 수 있어요. 학생 계정은 선생님 페이지에 들어올 수 없어요.</span></div>
+  <form onsubmit="event.preventDefault();A.teacherLogin()" autocomplete="off">
+    <div class="field"><label>교사용 아이디</label><input class="inp" id="tid" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="아이디"></div>
+    <div class="field"><label>비밀번호</label><input class="inp" id="tpw" type="password" placeholder="비밀번호"></div>
+    ${L.err?`<div class="err">${esc(L.err)}</div>`:''}
+    <button class="btn block" ${locked?'disabled':''} id="tbtn">${locked?'잠시 후 다시 시도해 주세요':'인증하고 들어가기'}</button>
+  </form></div>`;
+}
+
+function vBlocked(){
+  return`<div class="blocked">
+  <div class="lock">${ICON.lock}</div>
+  <div class="h1" style="margin:6px 0 0">선생님 전용 페이지예요</div>
+  <p style="color:var(--sub);font-size:14px">인증된 교사용 계정으로 로그인해야 자료를 올리거나 수정할 수 있어요.<br>학생 계정으로는 접근할 수 없어요.</p>
+  <button class="btn" onclick="A.toTeacherLogin()">선생님 로그인</button>
+  <button class="btn ghost" onclick="A.leaveBlocked()">돌아가기</button></div>`;
+}
+
+/* ----- student shell ----- */
+function vStudent(){
+  const p=S.profile||{};const u=unread();
+  const views={home:vHome,archive:vArchive,perf:vPerf,cal:vCal,ai:vAI};
+  const tabs=[['home','홈'],['archive','학습지'],['perf','수행평가'],['cal','캘린더'],['ai','AI 도우미']];
+  return`<div class="wrap">
+  <header class="top">
+    <div class="logo">모아<span class="dot">.</span></div>
+    <button class="icobtn" onclick="A.inbox()" aria-label="알림">${ICON.bell}${u?`<span class="badge">${u>9?'9+':u}</span>`:''}</button>
+    <button class="avatar" onclick="A.me()" aria-label="내 정보">${esc((p.name||'?').slice(-2))}</button>
+  </header>
+  <main class="main">${views[S.view]()}</main>
+  ${S.view==='home'||S.view==='perf'?`<button class="fab" onclick="A.quickAdd('${S.view==='perf'?'perf':'hw'}')"><span style="font-size:22px;line-height:1">+</span> 할 일 추가</button>`:''}
+  ${S.view==='archive'?`<button class="fab" onclick="A.uploadSheet()"><span style="font-size:22px;line-height:1">+</span> 학습지 올리기</button>`:''}
+  <nav class="nav"><div class="nav-in">${tabs.map(([k,l])=>`<button class="${S.view===k?'on':''}" onclick="A.tab('${k}')">${ICON[k]}${l}</button>`).join('')}</div></nav>
+  </div>`;
+}
+
+/* ----- HOME: this week at a glance ----- */
+function entryRow(en){
+  if(en.k==='event'){const e=en.e;const exam=/고사/.test(e.kind);const c=exam?KIND_COLOR.exam:KIND_COLOR.event;
+    return`<div class="item"><div class="ev-ic" style="background:${c}1f">${EVENT_EMOJI[e.kind]||'📌'}</div><div class="body"><div class="meta"><span class="ktag" style="color:${c}">${esc(e.kind)}</span>${e.end&&e.end!==e.start?`<span>${fmt(e.start)}~${fmt(e.end)}</span>`:''}</div><div class="ttl">${esc(e.title)}</div></div></div>`}
+  const x=en.x;
+  if(en.k==='sheet')return`<button class="item" onclick="A.sheet('${x.src}','${x.id}')"><div class="ev-ic" style="background:${KIND_COLOR.sheet}1f">📄</div><div class="body"><div class="meta">${subjTag(x.subject)}<span class="ktag">학습지 배부</span></div><div class="ttl">${esc(x.title)}</div></div><span style="color:var(--mute)">›</span></button>`;
+  const kd=en.k==='perf'?(en.sub==='평가일'?x.evalDate:x.due):x.due;const n=diff(kd);const u=urg(n,x.done);
+  const goto=en.k==='perf'?`A.gotoPerf('${x.id}')`:`A.taskInfo('${x.src}','${x.id}','${en.k}')`;
+  return`<div class="item ${u==='hot'?'hot':u==='over'?'over':''} ${x.done?'isdone':''}">
+    <button class="chk ${x.done?'on':''}" onclick="A.done('${x.src}','${x.id}','${en.k}')" aria-label="완료">${x.done?CHECK:''}</button>
+    <button class="body" style="text-align:left" onclick="${goto}"><div class="meta">${subjTag(x.subject)}<span class="ktag" style="color:${KIND_COLOR[en.k]}">${TYPE_LABEL[en.k]} · ${en.sub}</span></div><div class="ttl">${esc(x.title)}</div></button>
+    <span class="dd ${u}">${x.done?'완료':ddLabel(n)}</span></div>`;
+}
+function vHome(){
+  const p=S.profile||{};const t=today();const d=new Date();
+  const wk=[...Array(7)].map((_,i)=>addDays(t,i));const end=wk[6];
+  const P=perfs(),H=tasks('hw'),SP=tasks('supply'),SH=sheets();
+  const inWeek=x=>{const k=keyDate(x);return k&&k>=t&&k<=end};
+  const urgent=[...P.map(x=>({x,k:'perf',d:keyDate(x)})),...H.map(x=>({x,k:'hw',d:x.due})),...SP.map(x=>({x,k:'supply',d:x.due}))]
+    .filter(o=>!o.x.done&&o.d&&diff(o.d)<=1&&diff(o.d)>=-7).sort((a,b)=>a.d.localeCompare(b.d));
+  const stats=[
+    [SH.filter(x=>x.src==='t'&&x.date===t).length,'오늘 받은<br>학습지','archive'],
+    [P.filter(x=>!x.done&&inWeek(x)).length,'이번 주<br>수행평가','perf'],
+    [SP.filter(x=>!x.done&&x.due>=t&&x.due<=end).length,'챙길<br>준비물','cal'],
+    [H.filter(x=>!x.done&&x.due>=t).length,'남은<br>숙제','cal']];
+  const overdue=[...P.filter(x=>!x.done&&keyDate(x)&&diff(keyDate(x))<0&&diff(keyDate(x))>=-14).map(x=>({k:'perf',x,sub:'마감 지남'})),...H.filter(x=>!x.done&&x.due&&diff(x.due)<0&&diff(x.due)>=-14).map(x=>({k:'hw',x,sub:'마감 지남'}))];
+  const recent=SH.slice(0,8);
+  return`
+  <div class="hello"><div class="date">${d.getMonth()+1}월 ${d.getDate()}일 ${DOW[d.getDay()]}요일 · ${esc(p.grade)}학년 ${esc(p.cls)}반</div>
+  <h2>${esc(p.name)}님, 이번 주 할 일이에요 ✏️</h2></div>
+  ${urgent.length?`<div class="alert"><div class="alert-h"><span class="pulse"></span>마감 임박! 지금 챙겨야 해요</div>${urgent.slice(0,4).map(o=>{const n=diff(o.d);return`<div class="alert-row">${subjTag(o.x.subject)}<span class="t">${esc(o.x.title)}</span><span class="dd ${urg(n)}">${ddLabel(n)}</span></div>`}).join('')}</div>`:''}
+  <div class="stats">${stats.map(([n,l,v])=>`<button class="stat" onclick="A.tab('${v}')"><b style="${n?'':'color:var(--mute)'}">${n}</b><span>${l}</span></button>`).join('')}</div>
+  <div class="week">${wk.map((ds,i)=>{const es=dayEntries(ds);const kinds=[...new Set(es.map(e=>e.k==='event'&&/고사/.test(e.e.kind)?'exam':e.k))].slice(0,4);const dd=parse(ds);
+    return`<button class="wd ${i===0?'today':''}" onclick="document.getElementById('day-${ds}').scrollIntoView({behavior:'smooth',block:'start'})"><div class="d">${i===0?'오늘':DOW[dd.getDay()]}</div><div class="n">${dd.getDate()}</div><div class="dots">${kinds.map(k=>`<i style="background:${KIND_COLOR[k]}"></i>`).join('')}</div></button>`}).join('')}</div>
+  ${overdue.length?`<div class="day"><div class="day-h"><b style="color:var(--red)">⚠️ 마감이 지났어요</b></div><div class="list">${overdue.map(entryRow).join('')}</div></div>`:''}
+  ${wk.map((ds,i)=>{const es=dayEntries(ds).sort((a,b)=>(a.k==='event'?0:1)-(b.k==='event'?0:1));
+    return`<div class="day" id="day-${ds}" style="scroll-margin-top:72px"><div class="day-h"><b>${i===0?'오늘':i===1?'내일':fmt(ds)}</b><span>${i<2?fmt(ds):''}</span></div>
+    ${es.length?`<div class="list">${es.map(entryRow).join('')}</div>`:`<div class="empty-day">등록된 일정이 없어요</div>`}</div>`}).join('')}
+  <div class="sec-h"><h3>최근 받은 학습지</h3><button onclick="A.tab('archive')">보관함 ›</button></div>
+  ${recent.length?`<div class="hscroll">${recent.map(x=>sheetCard(x,'hsheet')).join('')}</div>`:`<div class="empty-day">아직 학습지가 없어요. 보관함에서 사진을 올려 보세요.</div>`}
+  <div style="height:20px"></div>`;
+}
+
+/* ----- ARCHIVE ----- */
+function sheetCard(x,cls=''){
+  const c=SUBJ_COLOR[x.subject]||'#6b7280';const src=x.file&&x.file.img!==false?fileSrc(x.file):'';
+  return`<button class="sheet ${cls}" onclick="A.sheet('${x.src}','${x.id}')"><div class="th">${src?`<img src="${esc(src)}" alt="" loading="lazy">`:`<div class="ph" style="background:${c}">${esc((x.subject||'?').slice(0,2))}</div>`}<span class="src">${x.src==='t'?'선생님 배부':'내가 올림'}</span></div>
+  <div class="inf">${subjTag(x.subject)}<div class="ttl">${esc(x.title)}</div><div class="dt">${fmt(x.date)} 배부</div></div></button>`;
+}
+function vArchive(){
+  const all=sheets();const qq=S.q.trim().toLowerCase();
+  const counts={};all.forEach(x=>counts[x.subject]=(counts[x.subject]||0)+1);
+  const list=all.filter(x=>(S.subj==='전체'||x.subject===S.subj)&&(!qq||[x.title,x.subject,x.desc,x.note,x.date].join(' ').toLowerCase().includes(qq)));
+  const subs=SUBJECTS.filter(s=>counts[s]);
+  return`<div class="hello" style="padding-bottom:10px"><h2>학습지 보관함 📚</h2><div class="date">잃어버린 학습지도 여기서 다시 찾아요</div></div>
+  <div class="search">${ICON.search}<input class="inp" placeholder="학습지 이름, 과목, 날짜로 검색" value="${esc(S.q)}" oninput="S.q=this.value;A.archiveList()"></div>
+  <div class="chip-scroll"><button class="chip ${S.subj==='전체'?'on':''}" onclick="A.subj('전체')">전체<small>${all.length}</small></button>${subs.map(s=>`<button class="chip ${S.subj===s?'on':''}" onclick="A.subj('${s}')">${s}<small>${counts[s]}</small></button>`).join('')}</div>
+  <div id="alist">${archiveGrid(list)}</div><div style="height:30px"></div>`;
+}
+function archiveGrid(list){return list.length?`<div class="grid">${list.map(x=>sheetCard(x)).join('')}</div>`:`<div class="empty"><div class="big">🗂️</div>${S.q?'검색 결과가 없어요':'아직 보관된 학습지가 없어요.<br>오른쪽 아래 버튼으로 사진을 올려 보세요.'}</div>`}
+
+/* ----- PERFORMANCE ----- */
+function perfCard(x){
+  const kd=keyDate(x),n=diff(kd),u=urg(n,x.done);const tot=x.steps.length,dn=x.steps.filter(s=>s.d).length;const pct=tot?Math.round(dn/tot*100):0;const open=S.open===x.id;
+  return`<div class="pcard ${u}" id="pc-${x.id}">
+  <button class="pc-top" onclick="A.open('${x.id}')">
+    <div class="dd big ${u}">${x.done?'완료':ddLabel(n)||'-'}</div>
+    <div class="pc-main"><div class="meta" style="display:flex;gap:6px;align-items:center">${subjTag(x.subject)}<span class="ktag">${x.src==='t'?'선생님 등록':'내가 추가'}</span></div>
+      <div class="pc-title">${esc(x.title)}</div>
+      <div class="pc-dates">${[x.evalDate?'평가일 '+fmt(x.evalDate):'',x.due?'제출 '+fmt(x.due):''].filter(Boolean).join(' · ')||'날짜 미정'}</div>
+      <div class="bar"><i style="width:${x.done?100:pct}%"></i></div><div class="pc-prog">준비 상황 ${dn}/${tot} ${x.done?'· 완료 ✅':''}</div></div>
+  </button>
+  ${open?`<div class="pc-body">
+    ${x.desc?`<div class="desc">${esc(x.desc)}</div>`:''}
+    ${x.file?fileView(x.file):''}
+    ${x.materials&&x.materials.length?`<div class="lbl">준비물</div><div class="chips" style="margin-top:6px">${x.materials.map(m=>`<span class="chip">🎒 ${esc(m)}</span>`).join('')}</div>`:''}
+    <div class="lbl">준비 체크리스트</div>
+    <div class="steps">${x.steps.map((s,i)=>`<div class="step ${s.d?'on':''}"><button class="chk ${s.d?'on':''}" onclick="A.step('${x.src}','${x.id}',${i})">${s.d?CHECK:''}</button><span style="flex:1" onclick="A.step('${x.src}','${x.id}',${i})">${esc(s.t)}</span><button class="x" onclick="A.delStep('${x.src}','${x.id}',${i})" aria-label="삭제">×</button></div>`).join('')}</div>
+    <form class="addstep" onsubmit="event.preventDefault();A.addStep('${x.src}','${x.id}')"><input class="inp" id="ns-${x.id}" placeholder="할 일 추가 (예: 자료 조사)"><button class="btn sm">추가</button></form>
+    <div class="acts"><button class="btn sm ${x.done?'soft':'accent'}" onclick="A.done('${x.src}','${x.id}','perf')">${x.done?'완료 취소':'✓ 완료로 표시'}</button>
+    ${x.src==='m'?`<button class="btn sm ghost" onclick="A.quickAdd('perf','${x.id}')">수정</button><button class="btn sm ghost" style="color:var(--red)" onclick="A.delMine('${x.id}')">삭제</button>`:''}</div>
+  </div>`:''}
+  </div>`;
+}
+function vPerf(){
+  const all=perfs();const todo=all.filter(x=>!x.done).sort((a,b)=>(keyDate(a)||'9').localeCompare(keyDate(b)||'9'));const done=all.filter(x=>x.done);
+  const list=S.perfTab==='todo'?todo:done;
+  return`<div class="hello" style="padding-bottom:10px"><h2>수행평가 관리 🗂️</h2><div class="date">마감이 가까울수록 빨갛게 알려줘요</div></div>
+  <div class="seg"><button class="${S.perfTab==='todo'?'on':''}" onclick="S.perfTab='todo';render()">준비 중 ${todo.length}</button><button class="${S.perfTab==='done'?'on':''}" onclick="S.perfTab='done';render()">완료 ${done.length}</button></div>
+  ${AI?`<button class="btn soft block" style="margin-bottom:12px" onclick="A.tab('ai');A.aiTool('extract')">📸 안내문 사진으로 자동 등록 (AI)</button>`:''}
+  ${list.length?list.map(perfCard).join(''):`<div class="empty"><div class="big">${S.perfTab==='todo'?'🎉':'📭'}</div>${S.perfTab==='todo'?'준비할 수행평가가 없어요':'아직 완료한 수행평가가 없어요'}</div>`}
+  <div style="height:40px"></div>`;
+}
+function fileView(f){const s=fileSrc(f);if(!s)return'';return f.img!==false&&(f.mime||'').startsWith('image')?`<img class="big-img" src="${esc(s)}" alt="첨부 이미지" onclick="A.zoom('${esc(s)}')">`:`<a class="filelink" href="${esc(s)}" target="_blank" rel="noopener">${ICON.file} ${esc(f.name||'첨부 파일')} 열기</a>`}
+
+/* ----- CALENDAR ----- */
+function vCal(){
+  const[y,m]=S.calMonth.split('-').map(Number);const first=new Date(y,m-1,1);const start=new Date(first);start.setDate(1-first.getDay());
+  const cells=[...Array(42)].map((_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return ymd(d)});
+  const t=today();const sel=dayEntries(S.calSel);
+  return`<div class="cal-h"><button class="icobtn" onclick="A.month(-1)">‹</button><b>${y}년 ${m}월</b><button class="icobtn" onclick="A.month(1)">›</button></div>
+  <div class="cal"><div class="cal-g">${[...DOW].map(w=>`<div class="cal-dow">${w}</div>`).join('')}
+  ${cells.map(ds=>{const es=dayEntries(ds);const exam=es.find(e=>e.k==='event'&&/고사/.test(e.e.kind));const kinds=[...new Set(es.filter(e=>!(e===exam)).map(e=>e.k))];
+    return`<button class="cell ${ds.slice(0,7)!==S.calMonth?'oth':''} ${ds===t?'today':''} ${ds===S.calSel?'sel':''}" onclick="S.calSel='${ds}';render()"><span class="num">${parse(ds).getDate()}</span>${exam?`<span class="exam">${esc(exam.e.kind.slice(0,2))}</span>`:''}<span class="cd">${kinds.map(k=>`<i style="background:${KIND_COLOR[k]}"></i>`).join('')}</span></button>`}).join('')}</div></div>
+  <div class="legend"><span><i style="background:${KIND_COLOR.exam}"></i>시험</span><span><i style="background:${KIND_COLOR.perf}"></i>수행평가</span><span><i style="background:${KIND_COLOR.event}"></i>행사·체험학습</span><span><i style="background:${KIND_COLOR.hw}"></i>숙제</span><span><i style="background:${KIND_COLOR.supply}"></i>준비물</span><span><i style="background:${KIND_COLOR.sheet}"></i>학습지</span></div>
+  <div class="day-h"><b>${fmt(S.calSel)}</b><span>${S.calSel===t?'오늘':ddLabel(diff(S.calSel))}</span></div>
+  ${sel.length?`<div class="list">${sel.map(entryRow).join('')}</div>`:`<div class="empty-day">이 날은 일정이 없어요</div>`}
+  ${upcomingExams()}
+  <div style="height:30px"></div>`;
+}
+function upcomingExams(){
+  const ex=S.events.filter(e=>evVisible(e)&&(e.end||e.start)>=today()).sort((a,b)=>a.start.localeCompare(b.start)).slice(0,5);
+  if(!ex.length)return'';
+  return`<div class="sec-h"><h3>다가오는 학교 일정</h3></div><div class="list">${ex.map(e=>{const n=diff(e.start);return`<div class="item"><div class="ev-ic" style="background:${/고사/.test(e.kind)?'#e5484d1f':'#7c4dff1f'}">${EVENT_EMOJI[e.kind]||'📌'}</div><div class="body"><div class="meta"><span class="ktag">${esc(e.kind)}</span><span>${fmt(e.start)}${e.end&&e.end!==e.start?'~'+fmt(e.end):''}</span>${String(e.cls)!=='전체'?'<span>· 우리 반</span>':''}</div><div class="ttl">${esc(e.title)}</div>${e.memo?`<div style="font-size:12px;color:var(--sub);white-space:pre-wrap">${esc(e.memo)}</div>`:''}</div><span class="dd ${urg(n)}">${n<=0?'진행 중':ddLabel(n)}</span></div>`}).join('')}</div>`;
+}
+
+/* ----- AI ----- */
+function vAI(){
+  const tools=[['summary','📄','학습지 요약','사진 속 핵심 내용 정리'],['extract','🔎','안내문 분석','준비물·제출기한 뽑아내기'],['plan','🗓️','복습 계획','시험 범위 맞춤 계획'],['notes','🧠','과목별 정리','보관함 학습 내용 모아보기']];
+  const t=S.ai.tool;
+  return`<div class="ai-hero"><div class="spark">✦</div><h2>AI 학습 도우미</h2><p>학습지와 안내문을 이해하고, 시험까지 공부 계획을 세워줘요.</p></div>
+  ${AI?'':`<div class="notice">AI 기능은 Claude 앱(claude.ai)에서 이 페이지를 열었을 때 사용할 수 있어요.</div>`}
+  <div class="ai-grid">${tools.map(([k,e,b,s])=>`<button class="ai-card ${t===k?'on':''}" onclick="A.aiTool('${k}')"><div class="e">${e}</div><b>${b}</b><span>${s}</span></button>`).join('')}</div>
+  ${t?`<div class="panel" id="aipanel">${aiPanel(t)}</div>`:''}
+  ${S.st.plan&&t!=='plan'?`<div class="panel"><h3>📌 저장한 복습 계획</h3>${planView(S.st.plan)}</div>`:''}
+  <div style="height:30px"></div>`;
+}
+function photoPicker(id,label){const f=S.ai[id];return`<label class="drop" id="drop-${id}">${f?`<img src="${URL.createObjectURL(f)}" alt=""><span>다른 사진 선택</span>`:`<div style="font-size:28px">📷</div>${label}`}<input type="file" accept="image/*" onchange="A.aiPick('${id}',this.files[0])"></label>`}
+function aiPanel(t){
+  const SH=sheets();
+  if(t==='summary')return`<h3>📄 학습지 핵심 요약</h3>
+    <div class="field"><label>보관함에서 고르기</label><select class="inp" onchange="S.ai.sheetSel=this.value;S.ai.sumFile=null;render()"><option value="">— 학습지 선택 —</option>${SH.map(x=>`<option value="${x.src}:${x.id}" ${S.ai.sheetSel===x.src+':'+x.id?'selected':''}>[${esc(x.subject)}] ${esc(x.title)} (${fmt(x.date)})</option>`).join('')}</select></div>
+    <div class="field"><label>또는 새 사진 올리기</label>${photoPicker('sumFile','학습지 사진을 선택하세요')}</div>
+    <button class="btn block" id="sumRunBtn" onclick="A.runSummary()">요약하기</button><div class="out" id="ai-out-summary">${S.ai.summaryOut?md(S.ai.summaryOut):'<p class="thinking">결과가 여기에 나와요.</p>'}</div>`;
+  if(t==='extract'){const r=S.ai.extract;return`<h3>🔎 수행평가 안내문 분석</h3>
+    <div class="field">${photoPicker('exFile','안내문 사진을 선택하세요')}</div>
+    <div class="field"><label>또는 안내문 글 붙여넣기</label><textarea class="inp" oninput="S.ai.exText=this.value" placeholder="안내문 내용을 붙여넣어도 돼요">${esc(S.ai.exText||'')}</textarea></div>
+    <button class="btn block" onclick="A.runExtract()" id="exBtn">준비물·기한 추출하기</button>
+    ${r?`<div class="out"><h4>${esc(r.title||'수행평가')}</h4><dl class="kv"><dt>과목</dt><dd>${esc(r.subject||'-')}</dd><dt>평가일</dt><dd>${r.evalDate?fmt(r.evalDate):'-'}</dd><dt>제출 기한</dt><dd>${r.due?fmt(r.due)+' <b style="color:var(--red)">'+ddLabel(diff(r.due))+'</b>':'-'}</dd><dt>준비물</dt><dd>${(r.materials||[]).map(esc).join(', ')||'-'}</dd></dl>${r.summary?`<p>${esc(r.summary)}</p>`:''}<button class="btn accent block" style="margin-top:10px" onclick="A.saveExtract()">내 수행평가에 추가</button></div>`:''}`}
+  if(t==='plan'){const ex=S.events.filter(e=>evVisible(e)&&/고사/.test(e.kind)&&e.start>=today()).sort((a,b)=>a.start.localeCompare(b.start));
+    if(S.ai.examSel===undefined&&ex[0])S.ai.examSel=ex[0].id;
+    return`<h3>🗓️ 시험 범위 맞춤 복습 계획</h3>
+    <div class="field"><label>시험 선택</label><select class="inp" onchange="S.ai.examSel=this.value;render()"><option value="">직접 날짜 입력</option>${ex.map(e=>`<option value="${e.id}" ${S.ai.examSel===e.id?'selected':''}>${esc(e.title)} (${fmt(e.start)}, ${ddLabel(diff(e.start))})</option>`).join('')}</select></div>
+    ${!S.ai.examSel?`<div class="field"><label>시험 시작일</label><input class="inp" type="date" value="${esc(S.ai.examDate||'')}" oninput="S.ai.examDate=this.value"></div>`:''}
+    <div class="field"><label>과목별 시험 범위</label><textarea class="inp" style="min-height:120px" oninput="S.ai.range=this.value" placeholder="예)&#10;수학: 이차방정식 ~ 이차함수 그래프&#10;영어: Lesson 3~4 본문, 단어&#10;과학: 3단원 전체">${esc(S.ai.range||ex.find(e=>e.id===S.ai.examSel)?.memo||'')}</textarea></div>
+    <div class="field"><label>하루 공부 가능 시간</label><select class="inp" onchange="S.ai.mins=this.value">${['60','90','120','180'].map(v=>`<option value="${v}" ${String(S.ai.mins||'90')===v?'selected':''}>${v}분</option>`).join('')}</select></div>
+    <button class="btn block" onclick="A.runPlan()" id="planBtn">복습 계획 만들기</button>
+    ${S.ai.planOut?`<div class="out">${planView(S.ai.planOut)}<button class="btn accent block" style="margin-top:12px" onclick="A.savePlan()">이 계획 저장하기</button></div>`:''}`}
+  if(t==='notes'){const subs=[...new Set(SH.map(x=>x.subject))];return`<h3>🧠 과목별 학습 내용 정리</h3>
+    <div class="field"><label>과목</label><div class="chips">${(subs.length?subs:SUBJECTS.slice(0,6)).map(s=>`<button class="chip ${S.ai.noteSubj===s?'on':''}" onclick="S.ai.noteSubj='${s}';render()">${s}</button>`).join('')}</div></div>
+    <button class="btn block" id="notesBtn" ${!S.ai.noteSubj?'disabled':''} onclick="A.runNotes()">정리하기</button><div class="out" id="ai-out-notes">${S.ai.notesOut?md(S.ai.notesOut):'<p class="thinking">보관함의 학습지와 요약을 모아 한 장으로 정리해요.</p>'}</div>`}
+  return'';
+}
+function planView(p){if(!p||!p.days)return'';return`${p.title?`<h4>${esc(p.title)}</h4>`:''}${p.days.map(d=>`<div class="plan-day"><b>${esc(d.date?fmt(d.date):'')} ${d.date?`<span class="dd ${urg(diff(d.date))}" style="margin-left:4px">${ddLabel(diff(d.date))}</span>`:''}</b>${(d.tasks||[]).map(tk=>`<div class="plan-task">${subjTag(tk.subject)}<span>${esc(tk.task)}</span><span class="m">${esc(tk.minutes||'')}분</span></div>`).join('')}</div>`).join('')}${p.tips&&p.tips.length?`<h4>💡 팁</h4><ul>${p.tips.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}`}
+
+/* ----- TEACHER ----- */
+function vTeacher(){
+  const mine=S.posts.filter(p=>p.author===TEACHER_ID).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const evs=S.events.filter(e=>e.author===TEACHER_ID).sort((a,b)=>a.start.localeCompare(b.start));
+  return`<div style="max-width:520px;margin:0 auto;min-height:100vh">
+  <div class="t-top"><div class="r"><div class="logo">모아<span class="dot">.</span> <span style="font-size:15px;font-family:'Noto Sans KR';font-weight:700;opacity:.8">선생님</span></div><button class="lo" onclick="A.logout()">로그아웃</button></div>
+  <div class="who"><span class="ver">✓ 인증됨</span> 교사용 계정 <b style="color:#fff">${TEACHER_ID}</b></div></div>
+  <div class="ttabs"><button class="${S.tTab==='post'?'on':''}" onclick="A.tTab('post')">자료 등록</button><button class="${S.tTab==='event'?'on':''}" onclick="A.tTab('event')">일정 등록</button><button class="${S.tTab==='list'?'on':''}" onclick="A.tTab('list')">내 게시물 ${mine.length+evs.length}</button></div>
+  <div class="main" style="padding-top:12px">${S.tTab==='post'?tPostForm():S.tTab==='event'?tEventForm():tList(mine,evs)}</div></div>`;
+}
+function tPostForm(){
+  const d=S.draft;const type=d.type||'sheet';const editing=!!S.editId;const f=S.draftFile||d.file;
+  return`${editing?`<div class="editing">✏️ 게시물을 수정하고 있어요 <button class="btn sm ghost" style="margin-left:auto" onclick="A.cancelEdit()">취소</button></div>`:''}
+  ${AI&&!editing?`<button class="btn soft block" style="margin-bottom:14px" onclick="A.tAutoFill()">📸 안내문 사진으로 자동 채우기 (AI)</button>`:''}
+  <form onsubmit="event.preventDefault();A.tSubmit()">
+  <div class="field"><label>자료 종류</label><div class="typesel">${Object.entries(TYPE_LABEL).map(([k,l])=>`<button type="button" class="${type===k?'on':''}" onclick="S.draft.type='${k}';render()">${l}</button>`).join('')}</div></div>
+  <div class="field"><label>과목</label><select class="inp" onchange="S.draft.subject=this.value;A.tTarget()">${SUBJECTS.map(s=>`<option ${(d.subject||'국어')===s?'selected':''}>${s}</option>`).join('')}</select></div>
+  <div class="row2">
+    <div class="field"><label>학년</label><select class="inp" onchange="S.draft.grade=this.value;A.tTarget()">${GRADES.map(g=>`<option value="${g}" ${String(d.grade||'1')===g?'selected':''}>${g}학년</option>`).join('')}</select></div>
+    <div class="field"><label>반</label><select class="inp" onchange="S.draft.cls=this.value;A.tTarget()"><option value="전체" ${(d.cls||'전체')==='전체'?'selected':''}>전체 반</option>${CLASSES.map(c=>`<option value="${c}" ${String(d.cls)===c?'selected':''}>${c}반</option>`).join('')}</select></div>
+  </div>
+  <div class="target" id="tgt">${tTargetText()}</div>
+  <div class="field"><label>자료 제목</label><input class="inp" required maxlength="80" value="${esc(d.title||'')}" oninput="S.draft.title=this.value" placeholder="${type==='sheet'?'예) 이차함수 그래프 연습 학습지':type==='perf'?'예) 영어 말하기 수행평가':type==='hw'?'예) 수학 익힘책 42~45쪽':'예) 실험용 고무장갑'}"></div>
+  <div class="field"><label>${type==='perf'?'평가 안내':'설명'} <span style="font-weight:400;color:var(--mute)">(선택)</span></label><textarea class="inp" oninput="S.draft.desc=this.value" placeholder="학생에게 전할 내용을 적어 주세요">${esc(d.desc||'')}</textarea></div>
+  <div class="field"><label>업로드 파일 ${type==='sheet'?'':'<span style="font-weight:400;color:var(--mute)">(선택)</span>'}</label>
+    <label class="drop">${f?(f.img!==false&&(f.type||f.mime||'').startsWith('image')?`<img src="${S.draftFile?URL.createObjectURL(S.draftFile):esc(fileSrc(f))}" alt="">`:`<div>${ICON.file}</div>`)+`<span>${esc(f.name||'첨부됨')} · 바꾸려면 탭</span>`:`<div style="font-size:28px">📎</div>학습지 사진 또는 파일(이미지·PDF) 선택`}<input type="file" accept="image/*,application/pdf" onchange="S.draftFile=this.files[0];render()"></label></div>
+  ${type==='perf'?`<div class="field"><label>평가일</label><input class="inp" type="date" value="${esc(d.evalDate||'')}" oninput="S.draft.evalDate=this.value"></div>
+  <div class="field"><label>준비물 <span style="font-weight:400;color:var(--mute)">(쉼표로 구분)</span></label><input class="inp" value="${esc((d.materials||[]).join(', '))}" oninput="S.draft.materials=this.value.split(',').map(s=>s.trim()).filter(Boolean)" placeholder="예) 발표 대본, USB, 색연필"></div>`:''}
+  <div class="field"><label>${type==='sheet'?'제출 기한 (선택)':type==='supply'?'챙겨올 날짜':'제출 기한'}</label><input class="inp" type="date" ${type==='sheet'?'':'required'} value="${esc(d.due||'')}" oninput="S.draft.due=this.value"></div>
+  <button class="btn accent block" id="tsub">${editing?'수정 내용 저장':'등록하고 학생에게 알리기'}</button>
+  </form><div style="height:30px"></div>`;
+}
+function tTargetText(){const d=S.draft;return`👥 <span><b>${esc(d.grade||'1')}학년 ${(d.cls||'전체')==='전체'?'전체 반':esc(d.cls)+'반'}</b>에서 <b>${esc(d.subject||'국어')}</b>을(를) 듣는 학생에게만 공개되고, 등록하면 알림이 가요. ${(d.type||'sheet')==='sheet'?'학생의 <b>학습지 보관함</b>에':(d.type==='perf'?'학생의 <b>수행평가 게시판</b>에':'학생의 <b>홈 · 캘린더</b>에')} 자동으로 표시돼요.</span>`}
+function tEventForm(){
+  const d=S.edraft;const editing=!!S.eEditId;
+  return`${editing?`<div class="editing">✏️ 일정을 수정하고 있어요 <button class="btn sm ghost" style="margin-left:auto" onclick="A.cancelEEdit()">취소</button></div>`:''}
+  <form onsubmit="event.preventDefault();A.eSubmit()">
+  <div class="field"><label>일정 종류</label><div class="chips">${EVENT_KINDS.map(k=>`<button type="button" class="chip ${(d.kind||'중간고사')===k?'on':''}" onclick="S.edraft.kind='${k}';render()">${EVENT_EMOJI[k]} ${k}</button>`).join('')}</div></div>
+  <div class="row2">
+    <div class="field"><label>학년</label><select class="inp" onchange="S.edraft.grade=this.value"><option value="전체">전 학년</option>${GRADES.map(g=>`<option value="${g}" ${String(d.grade)===g?'selected':''}>${g}학년</option>`).join('')}</select></div>
+    <div class="field"><label>반</label><select class="inp" onchange="S.edraft.cls=this.value"><option value="전체">전체 반</option>${CLASSES.map(c=>`<option value="${c}" ${String(d.cls)===c?'selected':''}>${c}반</option>`).join('')}</select></div>
+  </div>
+  <div class="field"><label>제목</label><input class="inp" required value="${esc(d.title||'')}" oninput="S.edraft.title=this.value" placeholder="예) 2학기 기말고사"></div>
+  <div class="row2"><div class="field"><label>시작일</label><input class="inp" type="date" required value="${esc(d.start||'')}" oninput="S.edraft.start=this.value"></div><div class="field"><label>종료일</label><input class="inp" type="date" value="${esc(d.end||'')}" oninput="S.edraft.end=this.value"></div></div>
+  <div class="field"><label>메모 / 시험 범위</label><textarea class="inp" oninput="S.edraft.memo=this.value" placeholder="시험 범위나 준비 사항">${esc(d.memo||'')}</textarea></div>
+  <button class="btn accent block">${editing?'수정 내용 저장':'일정 등록'}</button></form><div style="height:30px"></div>`;
+}
+function tList(mine,evs){
+  if(!mine.length&&!evs.length)return`<div class="empty"><div class="big">📭</div>아직 등록한 게시물이 없어요</div>`;
+  return`${mine.length?`<div class="sec-h" style="margin-top:4px"><h3>학습 자료 ${mine.length}</h3></div>`:''}
+  ${mine.map(p=>`<div class="tpost"><div class="r1">${subjTag(p.subject)}<span class="ktag" style="color:${KIND_COLOR[p.type]}">${TYPE_LABEL[p.type]}</span><span>· ${esc(p.grade)}학년 ${p.cls==='전체'?'전체 반':esc(p.cls)+'반'}</span></div>
+  <div class="tt">${esc(p.title)}</div><div style="font-size:12.5px;color:var(--sub)">등록 ${p.createdAt?fmt(ymd(new Date(p.createdAt))):''}${p.evalDate?' · 평가 '+fmt(p.evalDate):''}${p.due?' · 기한 '+fmt(p.due):''}${p.file?' · 📎 첨부':''}</div>
+  <div class="r3"><button class="btn sm ghost" onclick="A.tEdit('${p.id}')">수정</button><button class="btn sm ghost" style="color:var(--red)" onclick="A.tDel('${p.id}')">삭제</button></div></div>`).join('')}
+  ${evs.length?`<div class="sec-h"><h3>학교 일정 ${evs.length}</h3></div>`:''}
+  ${evs.map(e=>`<div class="tpost"><div class="r1"><span>${EVENT_EMOJI[e.kind]||''} ${esc(e.kind)}</span><span>· ${e.grade==='전체'?'전 학년':esc(e.grade)+'학년'} ${e.cls==='전체'?'':esc(e.cls)+'반'}</span></div><div class="tt">${esc(e.title)}</div><div style="font-size:12.5px;color:var(--sub)">${fmt(e.start)}${e.end&&e.end!==e.start?' ~ '+fmt(e.end):''}</div>
+  <div class="r3"><button class="btn sm ghost" onclick="A.eEdit('${e.id}')">수정</button><button class="btn sm ghost" style="color:var(--red)" onclick="A.eDel('${e.id}')">삭제</button></div></div>`).join('')}<div style="height:30px"></div>`;
+}
+
+/* ============================================================
+   ACTIONS
+   ============================================================ */
+const A={};
+A.close=closeModal;
+A.go=r=>{S.role=r;S.login.err='';if(r==='student-login'){const sv=ls.get('moa:profile');S.sl=sv?{...sv}:{grade:'1',cls:'1',subjects:[...SUBJECTS]};A.prefill()}render();window.scrollTo(0,0)};
+A.prefill=async()=>{await ready;const p=await getDoc(pp(),'profile');if(p&&p.name&&S.role==='student-login'&&!S.sl.name){S.sl={...p};render()}};
+A.slSubj=s=>{const cur=S.sl.subjects||[...SUBJECTS];S.sl.subjects=cur.includes(s)?cur.filter(x=>x!==s):[...cur,s];render()};
+A.studentLogin=async()=>{
+  const d=S.sl;if(!(d.name||'').trim())return;
+  const prof={name:d.name.trim(),grade:String(d.grade||'1'),cls:String(d.cls||'1'),num:d.num||'',subjects:d.subjects||[...SUBJECTS],updatedAt:Date.now()};
+  S.profile=prof;S.role='student';S.teacher=false;ss.set('moa:session',{role:'student'});ls.set('moa:profile',prof);
+  if(location.hash==='#teacher')history.replaceState(null,'',location.pathname+location.search);
+  S.view='home';render();
+  await ready;put(pp(),'profile',prof);startData();startPersonal();
+  try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{})}catch{}
+};
+A.teacherLogin=async()=>{
+  const L=S.login;if(L.lockUntil>Date.now())return;
+  const id=($('#tid').value||'').trim(),pw=$('#tpw').value||'';
+  if(!id||!pw){L.err='아이디와 비밀번호를 모두 입력해 주세요.';render();return}
+  let h=null;try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(id+':'+pw));h=[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch{}
+  if(h===TEACHER_KEY){L.err='';L.fails=0;S.teacher=true;S.role='teacher';ss.set('moa:session',{role:'teacher',k:h});S.draft={type:'sheet',subject:'국어',grade:'1',cls:'전체'};render();startData();toast('✅ 선생님 인증이 완료됐어요');return}
+  L.fails++;if(L.fails>=5){L.lockUntil=Date.now()+30000;L.fails=0;L.err='5회 실패해서 30초 동안 로그인이 제한돼요.';setTimeout(render,30100)}else L.err=`교사용 아이디 또는 비밀번호가 올바르지 않아요. (${L.fails}/5)`;
+  render();
+};
+A.toTeacherLogin=()=>{S.role='teacher-login';S.teacher=false;render()};
+A.leaveBlocked=()=>{history.replaceState(null,'',location.pathname+location.search);render()};
+A.logout=()=>{ss.del('moa:session');S.role=null;S.teacher=false;S.view='home';closeModal();if(location.hash)history.replaceState(null,'',location.pathname+location.search);render();window.scrollTo(0,0)};
+A.tab=v=>{S.view=v;S.open=null;render();window.scrollTo(0,0)};
+A.subj=s=>{S.subj=s;render()};
+A.archiveList=()=>{const all=sheets();const qq=S.q.trim().toLowerCase();$('#alist').innerHTML=archiveGrid(all.filter(x=>(S.subj==='전체'||x.subject===S.subj)&&(!qq||[x.title,x.subject,x.desc,x.note,x.date].join(' ').toLowerCase().includes(qq))))};
+A.month=n=>{const[y,m]=S.calMonth.split('-').map(Number);const d=new Date(y,m-1+n,1);S.calMonth=ymd(d).slice(0,7);render()};
+A.open=id=>{S.open=S.open===id?null:id;render()};
+A.gotoPerf=id=>{S.view='perf';S.open=id;S.perfTab=perfs().find(x=>x.id===id)?.done?'done':'todo';render();setTimeout(()=>document.getElementById('pc-'+id)?.scrollIntoView({behavior:'smooth',block:'center'}),50)};
+A.zoom=src=>openModal('크게 보기',`<img src="${src}" style="width:100%;border-radius:12px;background:#fff">`);
+
+/* check / done */
+function findItem(src,id,kind){if(kind==='perf')return perfs().find(x=>x.id===id&&x.src===src);return tasks(kind).find(x=>x.id===id&&x.src===src)}
+async function saveMine(id,patch){const m=S.mine.find(x=>x.id===id);if(!m)return;const{id:_,...body}=m;await put(pp(),id,{...body,...patch})}
+A.done=(src,id,kind)=>{
+  const x=findItem(src,id,kind);if(!x)return;const v=!x.done;
+  if(src==='t'){S.st.checks={...S.st.checks,[id]:{...(S.st.checks[id]||{}),done:v}};saveState();render()}else saveMine(id,{done:v});
+  if(v)toast('👏 완료! 잘했어요');
+};
+function setSteps(src,id,steps){if(src==='t'){S.st.checks={...S.st.checks,[id]:{...(S.st.checks[id]||{}),steps}};saveState();render()}else saveMine(id,{steps})}
+A.step=(src,id,i)=>{const x=findItem(src,id,'perf');if(!x)return;const s=x.steps.map((o,j)=>j===i?{...o,d:!o.d}:o);setSteps(src,id,s)};
+A.delStep=(src,id,i)=>{const x=findItem(src,id,'perf');if(!x)return;setSteps(src,id,x.steps.filter((_,j)=>j!==i))};
+A.addStep=(src,id)=>{const el=$('#ns-'+id);const v=(el.value||'').trim();if(!v)return;el.value='';el.blur();const x=findItem(src,id,'perf');setSteps(src,id,[...x.steps,{t:v,d:false}])};
+A.delMine=async id=>{if(await confirmBox('이 항목을 삭제할까요?')){await del(pp(),id);S.open=null;toast('삭제했어요')}};
+
+/* task detail (hw / supply) */
+A.taskInfo=(src,id,kind)=>{const x=findItem(src,id,kind);if(!x)return;const n=diff(x.due);
+  openModal(`${TYPE_LABEL[kind]} 상세`,`<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px">${subjTag(x.subject)}<span class="dd ${urg(n,x.done)}">${x.done?'완료':ddLabel(n)}</span></div><div class="h1" style="font-size:20px">${esc(x.title)}</div>
+  <dl class="kv"><dt>${kind==='supply'?'챙길 날':'제출 기한'}</dt><dd>${fmt(x.due)}</dd><dt>등록</dt><dd>${src==='t'?'선생님':'내가 추가'}</dd></dl>${x.desc?`<p style="white-space:pre-wrap;margin-bottom:12px">${esc(x.desc)}</p>`:''}${x.file?fileView(x.file):''}
+  <div class="row2" style="margin-top:8px"><button class="btn ${x.done?'soft':'accent'}" onclick="A.done('${src}','${id}','${kind}');A.close()">${x.done?'완료 취소':'✓ 완료'}</button>${src==='m'?`<button class="btn ghost" style="color:var(--red)" onclick="A.close();A.delMine('${id}')">삭제</button>`:`<button class="btn ghost" onclick="A.close()">닫기</button>`}</div>`)};
+
+/* inbox */
+A.inbox=()=>{const L=inbox();const lr=S.st.lastRead||0;
+  openModal('알림',L.length?L.map(p=>`<button class="notif" onclick="A.close();A.fromNotif('${p.id}')"><span class="${(p.createdAt||0)>lr?'new':'old'}"></span><div><div class="t">${esc(p.subject)} 새 ${TYPE_LABEL[p.type]} · ${esc(p.title)}</div><div class="s">${p.createdAt?new Date(p.createdAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'numeric',minute:'2-digit'}):''}${p.due?' · 기한 '+fmt(p.due):''}</div></div></button>`).join(''):`<div class="empty"><div class="big">🔕</div>새 알림이 없어요</div>`);
+  S.st.lastRead=Date.now();saveState();setTimeout(render,0);
+};
+A.fromNotif=id=>{const p=S.posts.find(x=>x.id===id);if(!p)return;if(p.type==='sheet')A.sheet('t',id);else if(p.type==='perf')A.gotoPerf(id);else A.taskInfo('t',id,p.type)};
+
+/* profile */
+A.me=()=>{const p=S.profile||{};openModal('내 정보',`<dl class="kv"><dt>이름</dt><dd>${esc(p.name)}</dd><dt>학년/반</dt><dd>${esc(p.grade)}학년 ${esc(p.cls)}반 ${p.num?esc(p.num)+'번':''}</dd><dt>듣는 과목</dt><dd>${(p.subjects||[]).map(esc).join(', ')}</dd></dl>
+  ${!DB?`<div class="notice">지금은 이 기기에만 저장되는 체험 모드예요. Claude 앱에서 열면 선생님이 올린 자료가 실시간으로 공유돼요.</div>`:''}
+  <div class="row2"><button class="btn ghost" onclick="A.close();S.sl={...S.profile};S.role='student-login';render()">정보 수정</button><button class="btn" onclick="A.logout()">로그아웃</button></div>`)};
+
+/* worksheet detail */
+A.sheet=(src,id)=>{const x=sheets().find(s=>s.id===id&&s.src===src);if(!x)return;
+  openModal('학습지',`${x.file?fileView(x.file):''}<div style="display:flex;gap:6px;align-items:center">${subjTag(x.subject)}<span class="ktag">${src==='t'?'선생님 배부':'내가 올림'}</span></div>
+  <div class="h1" style="font-size:20px;margin-top:4px">${esc(x.title)}</div><dl class="kv"><dt>배부 날짜</dt><dd>${fmt(x.date)}</dd>${x.desc||x.note?`<dt>메모</dt><dd style="white-space:pre-wrap">${esc(x.desc||x.note)}</dd>`:''}</dl>
+  ${AI&&x.file&&x.file.img!==false?`<button class="btn block" id="sumBtn" onclick="A.sumSheet('${src}','${id}')">✨ AI로 핵심 내용 요약</button>`:''}
+  <div class="out" id="sum-${id}" style="${x.summary?'':'display:none'}">${md(x.summary)}</div>
+  ${src==='m'?`<button class="btn ghost block" style="margin-top:10px;color:var(--red)" onclick="A.close();A.delMine('${id}')">이 학습지 삭제</button>`:''}`)};
+const SUM_PROMPT=`너는 한국 중·고등학생의 복습을 돕는 AI 학습 도우미야. 첨부된 학습지 사진을 보고 핵심 내용을 학생 눈높이로 요약해 줘.
+형식(마크다운, 한국어):
+## 핵심 개념
+- 3~5개, 각 한 줄
+## 꼭 외울 것
+- 공식·용어·연도 등
+## 확인 문제
+1. 학습지 내용으로 풀 수 있는 짧은 문제 2개 (정답은 괄호로)
+사진을 읽을 수 없으면 그렇다고 짧게 말해 줘.`;
+A.sumSheet=async(src,id)=>{if(!await ensureAI())return;
+  const x=sheets().find(s=>s.id===id&&s.src===src);const b=$('#sumBtn');if(b){b.disabled=true;b.innerHTML='<span class="spin"></span> 요약하는 중…'}
+  const box=$('#sum-'+id);if(box)box.style.display='';
+  try{const blob=await fileBlob(x.file);const txt=await aiStream(SUM_PROMPT+`\n학습지 정보: 과목 ${x.subject}, 제목 "${x.title}"`,'sum-'+id,blob?[blob]:[]);
+    if(src==='t'){S.st.summaries={...(S.st.summaries||{}),[id]:txt};saveState()}else saveMine(id,{summary:txt});
+  }catch(e){aiErr(e)}finally{if(b){b.disabled=false;b.innerHTML='✨ 다시 요약하기'}}
+};
+
+/* upload worksheet (student) */
+A.uploadSheet=()=>{S.up={subject:'auto',date:today(),title:''};S.upFile=null;drawUpload()};
+function drawUpload(){const u=S.up;
+  openModal('학습지 사진 올리기',`<label class="drop">${S.upFile?`<img src="${URL.createObjectURL(S.upFile)}" alt=""><span>다른 사진 선택</span>`:`<div style="font-size:30px">📷</div>학습지 사진을 찍거나 선택하세요`}<input type="file" accept="image/*" onchange="A.upPick(this.files[0])"></label>
+  <div id="upAI" style="font-size:12.5px;color:var(--sub);margin:8px 2px 12px;min-height:18px">${u.aiMsg||''}</div>
+  <div class="field"><label>학습지 이름</label><input class="inp" id="upT" value="${esc(u.title)}" oninput="S.up.title=this.value" placeholder="예) 3단원 이차함수 정리"></div>
+  <div class="row2"><div class="field"><label>과목</label><select class="inp" id="upS" onchange="S.up.subject=this.value"><option value="auto" ${u.subject==='auto'?'selected':''}>자동 분류</option>${SUBJECTS.map(s=>`<option ${u.subject===s?'selected':''}>${s}</option>`).join('')}</select></div>
+  <div class="field"><label>배부 날짜</label><input class="inp" type="date" value="${esc(u.date)}" oninput="S.up.date=this.value"></div></div>
+  <div class="field"><label>메모 (선택)</label><input class="inp" value="${esc(u.note||'')}" oninput="S.up.note=this.value" placeholder="예) 다음 주 시험 범위"></div>
+  <button class="btn accent block" id="upBtn" onclick="A.upSave()">보관함에 저장</button>`)}
+A.upPick=async f=>{if(!f)return;S.upFile=f;
+  if(AI&&AI_IMG){S.up.aiMsg='<span class="spin dark" style="display:inline-block;vertical-align:-4px;width:14px;height:14px"></span> AI가 과목과 제목을 알아보는 중…';drawUpload();
+    try{const small=await compress(f,1200,.8);const r=await aiJSON(`이 학습지 사진을 보고 과목과 학습지 제목을 추정해. 과목은 반드시 다음 중 하나: ${SUBJECTS.join(', ')}. JSON만 출력: {"subject":"과목","title":"짧은 학습지 제목(20자 이내)"}`,[small]);
+      if(r&&SUBJECTS.includes(r.subject)){S.up.subject=r.subject;if(!S.up.title&&r.title)S.up.title=String(r.title).slice(0,40);S.up.aiMsg=`✨ AI 자동 분류: <b>${esc(r.subject)}</b>`}else S.up.aiMsg='';
+    }catch(e){S.up.aiMsg=''}
+  }
+  drawUpload();
+};
+A.upSave=async()=>{const u=S.up;if(!S.upFile){toast('학습지 사진을 선택해 주세요');return}
+  const title=(u.title||'').trim()||`${fmt(u.date)} 학습지`;let subject=u.subject==='auto'?guessSubject(title+' '+(u.note||'')):u.subject;
+  const b=$('#upBtn');b.disabled=true;b.innerHTML='<span class="spin"></span> 저장 중…';
+  try{const file=await storeFile(S.upFile);const id='s'+genId();
+    const ok=await put(pp(),id,{kind:'sheet',subject,title,date:u.date||today(),note:u.note||'',file,createdAt:Date.now()});
+    if(ok){closeModal();S.subj='전체';toast(`📚 ${subject} 보관함에 저장했어요`)}else{b.disabled=false;b.textContent='보관함에 저장'}
+  }catch(e){toast(e.message||'업로드 실패');b.disabled=false;b.textContent='보관함에 저장'}
+};
+
+/* quick add (student personal) */
+A.quickAdd=(kind,editId)=>{const m=editId?S.mine.find(x=>x.id===editId):null;S.qa=m?{...m}:{kind,subject:'국어',title:'',due:'',evalDate:'',materials:[],desc:''};S.qaEdit=editId||null;drawQA()};
+function drawQA(){const d=S.qa;
+  openModal(S.qaEdit?'수정하기':'할 일 추가',`${S.qaEdit?'':`<div class="typesel" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">${[['hw','숙제'],['supply','준비물'],['perf','수행평가']].map(([k,l])=>`<button class="${d.kind===k?'on':''}" onclick="S.qa.kind='${k}';drawQA()">${l}</button>`).join('')}</div>`}
+  <div class="field"><label>과목</label><select class="inp" onchange="S.qa.subject=this.value">${SUBJECTS.map(s=>`<option ${d.subject===s?'selected':''}>${s}</option>`).join('')}</select></div>
+  <div class="field"><label>${d.kind==='perf'?'수행평가 내용':d.kind==='supply'?'준비물':'숙제 내용'}</label><input class="inp" value="${esc(d.title)}" oninput="S.qa.title=this.value" placeholder="${d.kind==='perf'?'예) 독서 감상문 발표':d.kind==='supply'?'예) 실험복':'예) 영어 단어 30개 외우기'}"></div>
+  ${d.kind==='perf'?`<div class="row2"><div class="field"><label>평가일</label><input class="inp" type="date" value="${esc(d.evalDate)}" oninput="S.qa.evalDate=this.value"></div><div class="field"><label>제출 기한</label><input class="inp" type="date" value="${esc(d.due)}" oninput="S.qa.due=this.value"></div></div>
+  <div class="field"><label>준비물 (쉼표로 구분)</label><input class="inp" value="${esc((d.materials||[]).join(', '))}" oninput="S.qa.materials=this.value.split(',').map(s=>s.trim()).filter(Boolean)"></div>`
+  :`<div class="field"><label>${d.kind==='supply'?'챙길 날짜':'제출 기한'}</label><input class="inp" type="date" value="${esc(d.due)}" oninput="S.qa.due=this.value"></div>`}
+  <div class="field"><label>메모 (선택)</label><textarea class="inp" style="min-height:60px" oninput="S.qa.desc=this.value">${esc(d.desc||'')}</textarea></div>
+  <button class="btn accent block" onclick="A.qaSave()">${S.qaEdit?'저장':'추가하기'}</button>`)}
+A.qaSave=async()=>{const d=S.qa;if(!(d.title||'').trim()){toast('내용을 입력해 주세요');return}
+  if(d.kind!=='perf'&&!d.due){toast('날짜를 선택해 주세요');return}
+  const{id:_,...body}=d;const id=S.qaEdit||(d.kind[0]+genId());
+  const data={...body,title:d.title.trim(),createdAt:d.createdAt||Date.now()};
+  if(d.kind==='perf'&&!S.qaEdit)data.steps=defSteps(d);
+  if(await put(pp(),id,data)){closeModal();toast(S.qaEdit?'수정했어요':'추가했어요')}
+};
+
+/* AI tools */
+A.aiTool=k=>{S.ai.tool=S.ai.tool===k?null:k;render();setTimeout(()=>$('#aipanel')?.scrollIntoView({behavior:'smooth',block:'start'}),60)};
+A.aiPick=(k,f)=>{if(!f)return;S.ai[k]=f;if(k==='sumFile')S.ai.sheetSel='';render()};
+A.runSummary=async()=>{
+  if(!S.ai.sumFile&&!S.ai.sheetSel){toast('학습지를 고르거나 사진을 올려 주세요');return}
+  const btn=$('#sumRunBtn');const reset=()=>{const b=$('#sumRunBtn');if(b){b.disabled=false;b.textContent='요약하기'}};
+  if(btn){btn.disabled=true;btn.innerHTML='<span class="spin"></span> 요약하는 중…'}
+  if(!await ensureAI()){reset();return}
+  let blob=null,info='';
+  if(S.ai.sumFile){blob=await compress(S.ai.sumFile,1600,.85)}
+  else if(S.ai.sheetSel){const[src,id]=S.ai.sheetSel.split(':');const x=sheets().find(s=>s.id===id&&s.src===src);if(x){blob=x.file?await fileBlob(x.file):null;info=`과목 ${x.subject}, 제목 "${x.title}"`}}
+  if(!blob){toast('사진을 불러오지 못했어요. 다시 선택해 주세요');reset();return}
+  try{S.ai.summaryOut=await aiStream(SUM_PROMPT+(info?'\n학습지 정보: '+info:''),'ai-out-summary',[blob]);
+    if(S.ai.sheetSel){const[src,id]=S.ai.sheetSel.split(':');if(src==='t'){S.st.summaries={...(S.st.summaries||{}),[id]:S.ai.summaryOut};saveState()}else saveMine(id,{summary:S.ai.summaryOut})}
+  }catch(e){aiErr(e)}finally{reset()}
+};
+const EX_PROMPT=()=>`너는 학교 수행평가 안내문을 분석하는 도우미야. 오늘은 ${today()}(${DOW[new Date().getDay()]}요일)이야. 안내문에서 정보를 뽑아 JSON만 출력해.
+{"subject":"${SUBJECTS.join('|')} 중 하나","title":"수행평가 이름","evalDate":"YYYY-MM-DD 또는 null","due":"제출 기한 YYYY-MM-DD 또는 null","materials":["준비물"],"summary":"평가 방법과 주의사항 1~2문장"}
+날짜에 연도가 없으면 오늘 이후 가장 가까운 날짜로 정해. 정보가 없으면 null이나 빈 배열을 써.`;
+A.runExtract=async()=>{
+  const imgs=S.ai.exFile?[await compress(S.ai.exFile,1600,.85)]:[];const txt=(S.ai.exText||'').trim();
+  if(!imgs.length&&!txt){toast('안내문 사진이나 글을 넣어 주세요');return}
+  if(!await ensureAI())return;
+  const b=$('#exBtn');b.disabled=true;b.innerHTML='<span class="spin"></span> 분석하는 중…';
+  try{const r=await aiJSON(EX_PROMPT()+(txt?'\n\n안내문:\n'+txt:''),imgs);S.ai.extract=r&&typeof r==='object'?r:null;if(!S.ai.extract)toast('내용을 찾지 못했어요')}catch(e){aiErr(e)}
+  render();
+};
+const okDate=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'')?s:'';
+A.saveExtract=async()=>{const r=S.ai.extract;if(!r)return;const subject=SUBJECTS.includes(r.subject)?r.subject:'기타';
+  const data={kind:'perf',subject,title:r.title||'수행평가',evalDate:okDate(r.evalDate),due:okDate(r.due),materials:Array.isArray(r.materials)?r.materials.map(String):[],desc:r.summary||'',createdAt:Date.now()};
+  data.steps=defSteps(data);
+  if(await put(pp(),'p'+genId(),data)){S.ai.extract=null;S.ai.exFile=null;S.ai.exText='';toast('📌 수행평가에 추가했어요');A.tab('perf')}
+};
+A.runPlan=async()=>{
+  const ex=S.events.find(e=>e.id===S.ai.examSel);const start=ex?ex.start:S.ai.examDate;const range=(S.ai.range||ex?.memo||'').trim();
+  if(!start){toast('시험 날짜를 정해 주세요');return}if(!range){toast('시험 범위를 적어 주세요');return}
+  if(!await ensureAI())return;
+  const days=Math.max(1,Math.min(21,diff(start)));
+  const b=$('#planBtn');b.disabled=true;b.innerHTML='<span class="spin"></span> 계획 세우는 중…';
+  const sh=sheets().slice(0,30).map(x=>`- [${x.subject}] ${x.title} (${x.date})`).join('\n');
+  try{const r=await aiJSON(`너는 학생의 시험 복습 계획을 세우는 도우미야. 오늘은 ${today()}, 시험 시작일은 ${start}이야. 오늘부터 시험 전날까지 최대 ${days}일 동안, 하루 ${S.ai.mins||90}분 안에서 과목을 골고루 배분해. 시험 직전 이틀은 총정리·오답 위주로 해.
+시험 범위:\n${range}\n학생이 가진 학습지:\n${sh||'(없음)'}
+JSON만 출력: {"title":"계획 제목","days":[{"date":"YYYY-MM-DD","tasks":[{"subject":"과목","task":"구체적인 할 일(학습지 이름 활용)","minutes":30}]}],"tips":["팁 2~3개"]}`);
+    S.ai.planOut=r&&r.days?r:null;if(!S.ai.planOut)toast('계획을 만들지 못했어요');
+  }catch(e){aiErr(e)}render();
+};
+A.savePlan=()=>{S.st.plan=S.ai.planOut;saveState();toast('📌 복습 계획을 저장했어요');S.ai.planOut=null;S.ai.tool=null;render()};
+A.runNotes=async()=>{if(!await ensureAI())return;const s=S.ai.noteSubj;const list=sheets().filter(x=>x.subject===s);
+  const ctx=list.map(x=>`### ${x.title} (${x.date})\n${x.summary||x.desc||x.note||'(요약 없음)'}`).join('\n\n');
+  const imgs=[];if(AI_IMG)for(const x of list.filter(x=>!x.summary&&x.file&&x.file.img!==false).slice(0,3)){const bb=await fileBlob(x.file);if(bb)imgs.push(bb)}
+  try{S.ai.notesOut=await aiStream(`너는 학생의 ${s} 공부를 돕는 도우미야. 아래 학습지 목록과 요약${imgs.length?', 그리고 첨부한 학습지 사진':''}을 바탕으로 ${s} 학습 내용을 단원·주제별로 한 장에 정리해 줘. 마크다운(##, -)으로, 핵심 개념 → 연결 관계 → 시험에 잘 나오는 포인트 순서로. 자료가 부족하면 있는 것만 정리하고 부족하다고 알려 줘.\n\n${ctx||'(학습지 없음)'}`,'ai-out-notes',imgs)}catch(e){aiErr(e)}
+};
+
+/* teacher actions */
+A.tTab=t=>{S.tTab=t;render();window.scrollTo(0,0)};
+A.tTarget=()=>{const e=$('#tgt');if(e)e.innerHTML=tTargetText()};
+A.cancelEdit=()=>{S.editId=null;S.draft={type:'sheet',subject:'국어',grade:'1',cls:'전체'};S.draftFile=null;render()};
+A.tSubmit=async()=>{
+  if(!S.teacher){render();return}
+  const d=S.draft;const type=d.type||'sheet';
+  if(!(d.title||'').trim()){toast('자료 제목을 입력해 주세요');return}
+  if(type==='sheet'&&!S.draftFile&&!d.file){toast('학습지 파일을 올려 주세요');return}
+  const b=$('#tsub');b.disabled=true;b.innerHTML='<span class="spin"></span> 저장 중…';
+  try{
+    let file=d.file||null;if(S.draftFile)file=await storeFile(S.draftFile);
+    const orig=S.editId?S.posts.find(p=>p.id===S.editId):null;
+    if(orig&&orig.author!==TEACHER_ID){toast('본인이 등록한 게시물만 수정할 수 있어요');return}
+    const data={type,subject:d.subject||'국어',grade:String(d.grade||'1'),cls:String(d.cls||'전체'),title:d.title.trim(),desc:d.desc||'',due:d.due||'',
+      evalDate:type==='perf'?(d.evalDate||''):'',materials:type==='perf'?(d.materials||[]):[],file,date:orig?.date||today(),
+      createdAt:orig?.createdAt||Date.now(),updatedAt:Date.now(),author:TEACHER_ID};
+    const id=S.editId||('t'+genId());
+    if(await put('posts',id,data)){
+      toast(S.editId?'✏️ 수정했어요':`📢 등록 완료! ${data.grade}학년 ${data.cls==='전체'?'전체 반':data.cls+'반'} ${data.subject} 학생에게 알림을 보냈어요`,'',3400);
+      S.editId=null;S.draftFile=null;S.draft={type,subject:data.subject,grade:data.grade,cls:data.cls};if(orig)S.tTab='list';render();
+    }
+  }catch(e){toast(e.message||'저장 실패')}
+  const b2=$('#tsub');if(b2){b2.disabled=false;b2.textContent=S.editId?'수정 내용 저장':'등록하고 학생에게 알리기'}
+};
+A.tEdit=id=>{const p=S.posts.find(x=>x.id===id);if(!p||p.author!==TEACHER_ID)return;S.editId=id;S.draftFile=null;S.draft={...p};delete S.draft.id;S.tTab='post';render();window.scrollTo(0,0)};
+A.tDel=async id=>{const p=S.posts.find(x=>x.id===id);if(!p||p.author!==TEACHER_ID)return;if(await confirmBox(`'${esc(p.title)}'을(를) 삭제할까요?<br><span style="color:var(--sub);font-size:13px">학생 화면에서도 사라져요.</span>`)){if(await del('posts',id))toast('삭제했어요')}};
+A.cancelEEdit=()=>{S.eEditId=null;S.edraft={};render()};
+A.eSubmit=async()=>{if(!S.teacher)return;const d=S.edraft;if(!(d.title||'').trim()||!d.start){toast('제목과 시작일을 입력해 주세요');return}
+  const orig=S.eEditId?S.events.find(e=>e.id===S.eEditId):null;
+  const data={kind:d.kind||'중간고사',grade:String(d.grade||'전체'),cls:String(d.cls||'전체'),title:d.title.trim(),start:d.start,end:d.end&&d.end>=d.start?d.end:d.start,memo:d.memo||'',createdAt:orig?.createdAt||Date.now(),author:TEACHER_ID};
+  if(await put('events',S.eEditId||('e'+genId()),data)){toast(S.eEditId?'일정을 수정했어요':'📅 일정을 등록했어요');S.eEditId=null;S.edraft={};if(orig)S.tTab='list';render()}};
+A.eEdit=id=>{const e=S.events.find(x=>x.id===id);if(!e)return;S.eEditId=id;S.edraft={...e};S.tTab='event';render();window.scrollTo(0,0)};
+A.eDel=async id=>{const e=S.events.find(x=>x.id===id);if(!e)return;if(await confirmBox(`'${esc(e.title)}' 일정을 삭제할까요?`)){if(await del('events',id))toast('삭제했어요')}};
+A.tAutoFill=()=>{S.ai.tFile=null;openModal('안내문으로 자동 채우기',`<p style="font-size:14px;color:var(--sub);margin-bottom:12px">수행평가 안내문 사진을 올리면 과목·제목·평가일·준비물·기한을 채워 드려요.</p>
+  <label class="drop"><div style="font-size:30px">📷</div>안내문 사진 선택<input type="file" accept="image/*" onchange="A.tAutoRun(this.files[0])"></label><div id="taf" style="margin-top:12px"></div>`)};
+A.tAutoRun=async f=>{if(!f)return;const box=$('#taf');box.innerHTML='<div style="display:flex;gap:8px;align-items:center;color:var(--sub)"><span class="spin dark"></span> 안내문을 읽는 중…</div>';
+  try{const r=await aiJSON(EX_PROMPT(),[await compress(f,1600,.85)]);
+    S.draft={...S.draft,type:'perf',subject:SUBJECTS.includes(r.subject)?r.subject:(S.draft.subject||'국어'),title:r.title||S.draft.title||'',desc:r.summary||'',evalDate:okDate(r.evalDate),due:okDate(r.due),materials:Array.isArray(r.materials)?r.materials.map(String):[]};
+    S.draftFile=f;closeModal();render();toast('✨ 안내문 내용으로 채웠어요. 학년·반을 확인해 주세요.');
+  }catch(e){box.innerHTML='';aiErr(e)}};
+
+/* ---------- boot ---------- */
+window.addEventListener('hashchange',render);
+(function boot(){
+  const sess=ss.get('moa:session');
+  if(sess&&sess.role==='teacher'&&sess.k===TEACHER_KEY){S.role='teacher';S.teacher=true;S.draft={type:'sheet',subject:'국어',grade:'1',cls:'전체'};startData()}
+  else if(sess&&sess.role==='student'){const p=ls.get('moa:profile');if(p&&p.name){S.profile=p;S.role='student';startData();startPersonal()}}
+  render();
+})();
+</script>
+</body>
+</html>
